@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>帮助文档</title>
+<style type="text/css">
+body{ font-size:12px; margin:1px;}
+.con{
+	background:#eeeeee;
+	padding:30px 10px 10px 30px;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=210,strength=1);/*ie*/
+	-moz-box-shadow: -1px 1px 3px #909090;/*firefox*/
+	-webkit-box-shadow: -1px 1px 3px #909090;/*safari或chrome*/
+	box-shadow:-1px 1px 3px #909090;/*opera或ie9*/
+}
+</style>
+</head>
+<body>
+<div class="con">
+<p><h2>常规入库</h2></p>
+<p>入口，库存管理-&gt;常规入库，常规入库的类型分几种，有<strong><u>A</u></strong><u>采购入库</u>，<strong><u>B</u></strong><u>转仓入库</u>，<strong><u>C</u></strong><u>退货入库</u>，这三个入库操作的权限分开，例如有采购入库权限不一定有转仓入库与退货入库权限。进入常规入库页面，有两个工作流标签，分别为“在途”与“已入库”，“在途”显示待入库的单，已入库显示入库记录，初始打开显示所有仓库的、所有需要做入库的订单(采购单，转仓单，退货单)，如图： <br />
+    <img width="814" height="206" src="../../data/images/help/changguiruku_clip_image002.jpg" /> </p>
+<p>&nbsp;</p>
+<ol>
+  <li><strong>采购入库</strong>，举例子来详解采购入库的具体操作，首先通过类型下拉选择采购入库，点击搜索，只查找需要做入库的采购单，然后点击订单号，跳到采购入库界面，保存即生成以下入库单。</li>
+</ol>
+<p><img width="898" height="212" src="../../data/images/help/changguiruku_clip_image004.jpg" /></p>
+<p>&nbsp;</p>
+<p>上面的例子是最普通的采购入库情况，下面再来讲一些非普通的采购入库例子：</p>
+<p>情况一，入库数量小于原单数量，如下图可见，该采购单有四个产品：<br />
+    <img width="844" height="179" src="../../data/images/help/changguiruku_clip_image006.gif" /></p>
+<p>&nbsp;</p>
+<p>现在需要做入库，直接点击订单号，页面将跳转到采购入库填写资料的页面，系统会自动读取采购单的数量，其中产品SKU，名称，入库仓库，订单数量都是供查看的，入库数量默认取原单数量，可手动更改，假设第三和第四个产品没到货，只是001、002到货了，那么需要将003、004产品的数量改为0，如下图：<br />
+    <img width="846" height="181" src="../../data/images/help/changguiruku_clip_image008.gif" /></p>
+<p>&nbsp;</p>
+<p>确定保存好，会有窗口提示“入库成功”，可以到“已入库”中查到刚刚做入库生成的入库单，以小字母w开头的单号如下图：<br />
+    <img width="854" height="183" src="../../data/images/help/changguiruku_clip_image010.gif" /></p>
+<p>&nbsp;</p>
+<p>再回到“在途”找到刚刚的采购单，有显示入库数量。<br />
+    <img width="853" height="172" src="../../data/images/help/changguiruku_clip_image012.gif" /></p>
+<p>&nbsp;</p>
+<p>    以上所述就是一次采购入库的操作过程，上例子是入库数量小于采购单数量，所以入库完后该采购单依然显示在“预入库”中供下次到货入库，但当入库数量等于采购单数量，则入库成功后，“预入库”将不再显示该订单，因为已经完成了入库。还存在一种情况，像上述例子，由于供应商缺货等原因，只到货两个，另外两个产品不再供应，也就是说这个采购单以后也无须再做入库，所以想让它不显示在“预出库”里，仓管人员可以通过上图所示，点击“x”手动关闭该采购单，关闭后的采购单，无论之前完成入库与否，都不会再显示了。</p>
+<p> </p>
+<p>&nbsp;</p>
+<p>情况二，存在红单的采购单，在入库的时候，入库数量 = 采购单原单数量 - 红单数量 ，就算是完成了该采购单的入库，因为红单的数量抵消了一部分数量，实际入库数量比原单小，又以以上例子的采购单为例，在“采购操作”中做了一个红单，仓管在“预入库”也可看到红单，多一条红单的记录，001的数量是-1，如下图：<br />
+    <img width="842" height="154" src="../../data/images/help/changguiruku_clip_image014.gif" /></p>
+<p>&nbsp;</p>
+<p>点击采购单号，跳转采购入库填写资料页面，如下图，比较可知差别，有系统提示，而且由于001产品原单数量是1，红单是-1，001的需入库数量已全部抵消，无需再做入库，所以读取原单的时候，只取了前面三个SKU的产品，保存即可。 <br />
+    <img width="862" height="202" src="../../data/images/help/changguiruku_clip_image016.gif" /></p>
+<p>&nbsp;</p>
+<p>注：采购入库会自动加权平均计算产品成本，然后自动修改产品的成本，加权平均公式如下：<br />
+    <u>当前库存</u><u>x</u><u>当前产品成本</u>  +  <u>本次入库数量 </u><u>x </u><u>单位总成本</u>  / 当前库存+本次入库数量。 </p>
+<p>&nbsp;</p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>B</strong><strong>、转仓入库，</strong>通过类型下拉筛选转仓入库，查到所有需要做转仓入库的订单，即都是以小写字母f开头的订单，如下图：<strong> </strong><br />
+    <img width="789" height="120" src="../../data/images/help/changguiruku_clip_image018.gif" /></p>
+<p>以上图所示，以f0000294为例，同样地，点击订单号，跳转到转仓入库的界面，如下两图所示(由于太长，截成两半图)，前半部分是只供查看的，包括入库数量也是锁定与原单数量相等，无法更改，这是与采购入库一个不同的地方，因为数量不能改少，所以一次就完成了入库，订单将不会再出现在“预入库”中供下次入库。<br />
+  另外还有不同的是，多了五种损坏的情况，假设在从A仓转到B仓的过程中，该产品由于物流损坏了5个，在入库时，仓管“物流损坏”中填写5个数量，在保存的时候，系统会做B仓的40个该产品的入库数量，然后再生成一个B仓5个数量的不良品调拨记录。<br />
+  <img width="836" height="197" src="../../data/images/help/changguiruku_clip_image020.gif" /></p>
+<p>&nbsp;</p>
+<p>保存后到已入库中查看可见，有5个数量的不良品调拨，如下图。 <br />
+    <img width="836" height="105" src="../../data/images/help/changguiruku_clip_image022.gif" /></p>
+<p>&nbsp;</p>
+<p>也可以到即时库存查询中查找该SKU，展开可发库存可见如下，有不良品记录数：<br />
+    <img width="183" height="173" src="../../data/images/help/changguiruku_clip_image024.gif" /></p>
+<p>&nbsp;</p>
+<p><strong>C</strong><strong>、退货入库，</strong>通过类型下拉筛选转仓入库，查到所有需要做退货入库的订单，罗列出的以小写字母r开头的是退货单，退货单来源于销售下单的已出库中做的退货单，退货单的入库与转仓入库有相似点，下面以r0001100为例，如下图： <br />
+    <img width="775" height="125" src="../../data/images/help/changguiruku_clip_image026.gif" /> </p>
+<p>&nbsp;</p>
+<p>退货入库界面与转仓十分相似，很多锁定只供查看的信息，包括数量，然后后半部分也是五种损坏情况，如果任何一个损坏情况下填写了数量，那么系统会首先将4个数量入库，然后用户填写了多少个损坏数量，系统就生成多少个数量的不良品调拨。<br />
+    <img width="864" height="196" src="../../data/images/help/changguiruku_clip_image028.gif" /> </p>
+<p>&nbsp;</p>
+<p>最后附上“常规入库”里的权限管理，如下图： <br />
+    <img width="545" height="288" src="../../data/images/help/changguiruku_clip_image030.gif" /> </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+
+</body>
+</html>

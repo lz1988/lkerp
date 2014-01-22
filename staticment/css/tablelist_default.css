@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+body{font-family: Arial,Helvetica,sans-serif;}
+a 	{text-decoration:none;	color: #4f6b72;}
+th.list{
+    font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    border-right: 1px solid #C1DAD7;
+    border-bottom: 1px solid #C1DAD7;
+    border-top: 1px solid #C1DAD7;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 6px 6px 6px 12px;
+    background: #828482;
+}
+#mytable {	border-left: 1px solid #C1DAD7;}
+#mytable td{border-right: 1px solid #C1DAD7;border-bottom: 1px solid #C1DAD7;font-size:12px;padding: 6px 6px 6px 12px;color: #4f6b72;}
+#mytable tr.hover{   background:#FFFF99;}
+.eventrbg{    background:#CAE8EA;    color: #4f6b72;}
+.oddtrbg{   background:#F5FAFA;    color:#797268;}
+.selected{background:#ffff99;}

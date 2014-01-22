@@ -1,0 +1,40 @@
+#sku_sp_ass {
+	border: 1px solid #C1DAD7;
+	/*修正单元格之间的边框不能合并*/
+	border-collapse: collapse;	
+	font-size: 12px;
+	height: 25px;
+	line-height: 25px;
+}
+#sku_sp_ass td {
+	border-right	: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;
+	height: 30px;
+	line-height: 25px;
+}
+#sku_sp_ass th {
+	background		: url(../images/bg_banner2.gif) repeat-x;
+	background-color: #EBEBEB;
+	font			: 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color			: #000;
+	border			: 1px solid #C1DAD7;
+	letter-spacing	: 2px;
+	text-transform	: uppercase;
+	text-align		: left;
+	padding			: 6px 6px 6px 12px; height:33px;
+}
+.assembly_condition{
+	background-color: #FFFFFF;
+}
+.edittd {
+	font-weight: bold;
+	background-color: #F7F7F7;
+}
+.hideinput {
+	display: none;	
+}
+.assembletype {
+	width: 150px;
+}
+
+a { color:#bdbdbd;}
+a  :hover{ color:#000}

@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>帮助文档</title>
+<style type="text/css">
+body{ font-size:12px; margin:1px;}
+.con{
+	background:#eeeeee;
+	padding:30px 10px 10px 30px;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=210,strength=1);/*ie*/
+	-moz-box-shadow: -1px 1px 3px #909090;/*firefox*/
+	-webkit-box-shadow: -1px 1px 3px #909090;/*safari或chrome*/
+	box-shadow:-1px 1px 3px #909090;/*opera或ie9*/
+}
+</style>
+</head>
+<body>
+<div class="con">
+
+
+<p><h2>邮宝订单 </h2></p>
+<p>进入E邮宝订单，显示发货方式是E邮宝的出库订单，以下是E邮宝订单操作：<br />
+    <img width="828" height="146" src="../../data/images/help/
+Eyoubaol_clip_image002.jpg" /></p>
+<p>&nbsp;</p>
+<p>点“搜索”以后，会显示出对应的订单，如下图：<br />
+    <img width="821" height="172" src="../../data/images/help/
+Eyoubaol_clip_image004.jpg" />         </p>
+<p>&nbsp;</p>
+<p>获取运单编号，会弹出下载PDF文件，用于贴在包裹上面发货。<br />
+    <img width="603" height="233" src="../../data/images/help/
+Eyoubaol_clip_image006.gif" /></p>
+<p>&nbsp;</p>
+<p>由于物流技术那边提供的这个接口还未太完善，存在一些问题，下面说明一下，使用时注意：</p>
+<p>1、产品名称的长度限制128位英文字符，其中一个中文占两个字符，如果超过128位，则生成文件失败。这个问题已经反馈给他们技术，建议改为支持256位长度，但由于牵涉到物流那边好几个系统，所以在他们未处理之前，建议我们的采购在命名产品时，名字别太长。</p>
+<ol>
+  <li>生成的PDF的文件包含了产品信息，寄件人信息，收件人信息等，是直接贴在包裹上的。其中有产品重量，所以走E邮宝的SKU需要在ERP录进重量，否则取得是空。</li>
+  <li>每次最多能选3条记录生成。因为物流提供的PDF文件的格式是固定的，超过三条记录，生成的PDF文件里，显示不全。</li>
+</ol>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+</body>
+</html>

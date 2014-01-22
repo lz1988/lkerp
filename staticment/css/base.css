@@ -1,0 +1,161 @@
+﻿@charset "utf-8";
+body { text-align: center; font-family:Arial, Helvetica, sans-serif;margin:0; padding:0;-webkit-text-size-adjust:none; background: #FFF; font-size:11px; color:#000; font-weight:100}
+div,form,img,ul,ol,li,dl,dt,dd,p {margin:0; padding:0; border:0;} 
+img{ overflow:hidden;vertical-align:bottom;}
+li{list-style:none;}
+h1,h2,h3,h4,h5,h6 {margin:0; padding:0;}
+table,td,tr,th{font-size:12px;}
+.clear{ clear: both; font-size:1px; width:1px; height:0; visibility: hidden; }
+a{ color:#333; text-decoration:none; blr:expression(this.onFocus=this.blur()); outline: none}
+a:hover{ color:#333; text-decoration: underline;}
+.company_announcements{ border:#20395d solid 1px; width:981px; margin:10px auto; padding:0px;text-align:left;height:250px;}
+.company_announcements h2{background:url(../images/company_bg.jpg) repeat-x; height:30px; line-height:30px; font-size:14px; color:#ffffff; padding-left:10px; font-weight:bold}
+.company_announcements ul{ background:url(../images/company_bg_ul.jpg) repeat-x top center; margin:1px; padding: 10px;}
+.company_announcements ul li{ padding:3px 10px; font-size:12px; color:#666666; line-height:20px; height: 20px; border-bottom: 1px #c6a8c6 dotted;}
+.company_contents{ width:983px; margin:0 auto; line-height:20px; color:#666666; font-size:12px; height:366px;}
+.company_contents h2{background: url(../images/company_bg_ul2.jpg) repeat-x; padding-left:15px;height:30px; line-height:30px; font-size:14px; color:#666666; padding-left:10px; font-weight:bold}
+.company_contents_left{float:left; width:377px; text-align:left;height:366px; border:#cbcbcb solid 1px; color:#000000}
+.company_contents_left td{ height:25px; line-height:25px;}
+.company_contents_left td a{ font-weight: bold;}
+.company_contents_body{width:290px; margin-left:10px; height:366px; border:#cbcbcb solid 1px; float:left; text-align:left;}
+.company_contents_body td{ height:25px; line-height:25px;}
+.company_contents_body td a{ font-weight: bold;}
+.contents_body_height{ height:307px; *height:305px; margin:0px; padding:0px;}
+.contents_body_height_li{ height:207px; *height:205px; margin:0px; padding:0px;}
+.contents_body_height_li_more{ float: right; padding: 2px 20px;}
+.contents_body_height_li_more a{ color: #336699;}
+.company_view{width:983px; margin:0 auto; color:#666666; font-size:12px; clear:both; border:#cbcbcb solid 1px; margin-top:10px;}
+.company_view h2{background: url(../images/company_bg_ul2.jpg) repeat-x; padding-left:15px;height:30px; line-height:30px; font-size:14px; color:#666666; padding-left:10px; font-weight:bold}
+.company_view table{ margin:10px;}
+.company_view th{background-color:#e6e6e6;height:35px; line-height:35px; font-size:12px; font-weight:bold; color:#666666; text-align:left; padding-left:15px;}
+.company_view .tr{text-align:left; background-color:#f5f5f5}
+.company_view .paging{ margin-left:10px; margin-right:10px; border-bottom:1px solid #b2b2b2; height:30px;}
+.company_view .textbox{width:973px; margin-top:10px;height:250px; display:inline-table; padding-right:10px;}
+.company_view .textboxleft{float:left; width:800px;}
+.company_view .textboxleft td{text-align:left; vertical-align: top; padding-left:0px; font-weight:bold;}
+.company_view .textboxleft .contents_body_height_li_more { margin-top: 25px;}
+.company_view .textboxsendto{width: 700px; font-family: Tahoma; border-style: solid; border-width: 1px; border-color: #7C7C7C #C3C3C3 #C3C3C3 #9A9A9A; padding: 1px; display: inline-table; background:url(../images/topline.gif) top left repeat-x; min-height: 18px;}
+.company_view .textboxsendto div{float: left; height:16px; margin-left: 3px; line-height: 16px; font-weight: normal; color:#999;}
+.company_view .textboxleftbox{ height:200px;clear:both;}
+.company_view .textboxview a{ font-size:12px; color:#ffffff; font-weight:bold; text-decoration:none;background: url(../images/texboxview_bg.gif) no-repeat; width:82px; height:31px; text-align:center; line-height:31px; margin-top:15px; display:block; border: 0; float:left;}
+.company_view .textboxview div{ text-align:center; padding-top:8px;padding-left:5px; margin-top:15px;float: left; font-weight:normal; color:#999;}
+.company_view .textboxview img{ padding-right:5px;}
+.company_view .textboxright{float:right; width:150px; border:#cbcbcb solid 1px;color:#666666; font-size:12px;text-align:left; margin-top: 10px; height: 300px;}
+.company_view .textboxright .textboxrightcontent{height: 270px; overflow: scroll; width: 150px;}
+.company_view .textboxright .textboxrightcontent .textboxcheckbox{ cursor: pointer;}
+.company_view .textboxright ul{ padding-top:5px;}
+.company_view .textboxright ul li{ padding-bottom:8px;}
+.company_view .textboxright ul li ul{ padding-left:25px; display: none;}
+.company_view .textboxright ul li ul li{height:20px; line-height:20px; padding:0px;}
+.company_view .textboxright span{ padding-left:8px; font-weight:bold;}
+.company_view .textboxright td{height:30px; line-height:30px;text-align:left; padding-left:0px; font-weight:bold;}
+
+/*create by wall*/
+.company_contents_body h2 span{
+    float: right;
+    padding-top: 3px;
+    cursor: pointer;
+}
+/* create by wall 
+ * 弹出窗口
+ */
+#backgroundPopup {
+	display:none;
+	position:fixed;
+	_position:absolute;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+	background:#000000;
+	border:1px solid #cecece;
+	z-index:1;
+}
+#popupContact {
+	display:none;
+	position:fixed;
+	_position:absolute;
+	height:384px;
+	width:408px;
+	background:#FFFFFF;
+	border:2px solid #cecece;
+	z-index:2;
+	padding:12px;
+	font-size:13px;
+}
+#popupContactClose {
+    color: #6FA5FD;
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14px;
+    position: absolute;
+    right: 6px;
+    top: 4px;
+}
+/* 分页div+css*/
+.paging {
+	background: #c6ddee;
+	border-top: 1px #81a3bc solid;
+	height: 28px;		
+}
+.paging ul li{ float:right; height: 23px; line-height: 18px; padding-top: 5px;}
+.paging button{ height:20px; line-height: 15px;}
+.paging ul li span{
+    cursor: pointer;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.paging ul li span img {
+    width: 15px;
+    height: 15px;
+}
+
+/* 加载中动画 */
+.company_announcements, .company_contents_left, .company_contents_body {
+	position: relative;
+}
+.wall_content .loadimg{
+	position: absolute;
+	left: 50%;
+	top: 50%;	
+}
+
+/* 发送邮件*/
+.mail_outbox{font-size:12px; color:#7F7F7F; background:#EFF5FB; padding:10px;}
+.mail_outbox .outbox_font{line-height:20px; color:#798699}
+.mail_outbox .name{color:#5FA207; padding-right:5px;}
+.mail_outbox .tcolor{color:#7F7F7F;font: 12px Verdana; font-weight:normal;}
+.mail_outbox .attbg{background-color: #E0ECF9;padding: 6px 10px 6px 10px; border-bottom:1px solid #aac1de; margin-top:5px; clear:both}
+.mail_outbox .attbg b{color:#333333; font-weight:normal;}
+.mail_outbox .bd {border:1px solid #A7C5E2;}
+.mail_outbox a{color:#1E5494; text-decoration:none;}
+.mailout_statList{ margin-top:5px;}
+.mailout_statList th, .mailout_statList td {font-size: 12px;padding: 0 2px 0 5px;text-align: left;}
+.mailout_statList th { background: none repeat scroll 0 0 #F2F4F6;border-left: 1px solid #FFFFFF;border-right: 1px solid #C4CACD;border-top: 1px solid #FFFFFF;color: #797A7B; font-weight: normal;height: auto !important;line-height: 21px;}
+.mailout_statList .end {border-right: 0 none;}
+.mailout_statList td {border-right: 1px solid #C4CACD;border-top: 1px solid #C4CACD;height: auto !important;line-height: 27px; color:#333333;}
+.mailout_statList td span{padding: 5px;}
+.mailout_statList img { vertical-align: middle !important;}
+.mailout_body{position:relative;font-size:14px;height:auto;padding:15px 15px 10px 15px;line-height:1.4;height: auto; min-height: 100px; font-family: 'lucida Grande',Verdana; padding-right:170px;}
+.mailout_next_previous{background:#c1d9f3; border-bottom:solid 1px #aac1de; height:20px; line-height:20px; text-align:right;color:#a0a0a0; font-size:12px; padding:5px 20px 5px 10px;}
+.mailout_next_previous input{ vertical-align: middle; line-height: 20px; height: 24px;}
+.mailout_next_previous a{ color:#1e5494; font-size:12px; text-decoration:none; margin-left:10px;}
+
+/* 通讯录 */
+.friend_information{
+	display: none;
+	width: 280px;
+	height: 180px;
+	padding: 10px;
+	position: absolute;
+	left: -290px;
+	background-color: #FFF;
+	border: 1px #000 solid;
+}
+.friend_information li {
+	text-align: left;
+}
+.wall_cursor_pointer {
+	cursor: pointer;	
+}

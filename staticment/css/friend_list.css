@@ -1,0 +1,65 @@
+﻿/* common css ============================================== */
+.g-dialogBox-hd { 
+	background-color: #316dad;
+	color: #FFFFFF;
+	height: 27px;
+	line-height: 27px;
+	padding: 0px 10px;
+	position: relative;
+}
+#close_pop_div {
+	line-height: 20px;
+	position: absolute;
+	right: 5px;
+	top: 3px;
+	cursor: pointer;
+}
+.g-dialogBox-bd { 
+	background: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 0px;
+}
+.g-dialogBox-bd {
+	border-color: #316dad;
+	background: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 0px;
+}
+.g-dialogBox-iconText { 
+	padding: 25px 10px 30px 75px;
+	position: relative;
+}
+.g-dialogBox-text { 
+	font-size: 14px;
+}
+.g-dialogBox-ft { 
+	background-color: #F7F7F7;
+	border-color: #316dad;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-style: solid;
+	border-top-width: 0px;
+	height: 42px;
+	padding: 0px 10px;
+}
+.g-dialogBox-ft-oprt { 
+	display: inline;
+	float: right;
+	margin: 8px 0px 0px;
+}

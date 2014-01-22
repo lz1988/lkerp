@@ -1,0 +1,91 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	margin-right:0;
+	margin-left:5px;   
+	BACKGROUND-IMAGE: url(../images/bg.gif) ; 
+	BACKGROUND-REPEAT: repeat-x;
+	BACKGROUND-POSITION:0px -120px;
+	font-size:12px;
+}
+
+#menuTree A {
+	COLOR: #566984; TEXT-DECORATION: none
+}
+
+
+.switch_icon{
+	float:right; width:7px; cursor:pointer;	
+	BACKGROUND: url(../images/switchPoint_icon.gif) no-repeat center;
+}
+
+
+.havehide {
+	BACKGROUND: url(../images/switchPoint_icon_alt.gif) no-repeat center;
+}
+
+.right_content 		{	float:left;	width:86%;	}
+.right_content_alt	{ 	width:100%;}
+
+        .normal
+        {
+              list-style: none; 
+			  float: left;
+			  padding:0;			               
+              width: 120px; 
+              text-align :center ; 
+              vertical-align :middle ; 
+              cursor :pointer ;
+              border-collapse :separate ;
+			  background-image:url(../images/ioc_bg_tag_normal.png);
+			  margin-right:3px;
+        }		
+	
+		
+        .selected
+        {
+             list-style: none; 
+             float: left;
+             width: 120px; 
+             text-align :center ; 
+             vertical-align :middle ; 
+             cursor :pointer ;              
+             border-bottom :solid 1px #fff;
+			 background-image:url(../images/ioc_bg_tag_select.png);
+       		 margin-right:3px;			 
+        }
+		
+        .selected a {
+			color:#3a4f6f;
+			font-weight:bold;
+		}
+		.normal a{
+			color:#000;
+		}
+        
+        #divMainTab
+        {
+             margin: 0px; padding: 0px;	
+
+        }
+        
+        .divContent
+        {		width:100%;
+                clear: both; 
+                border-left: solid 1px #9cd9f5;
+				border-bottom: solid 2px #9cd9f5;
+				padding-left:5px;
+				padding-top: 10px;
+				background:#fff;
+
+        }
+        
+        #divMainTab a		{text-decoration: none; }
+        #divMainTab a:hover {text-decoration: none; }
+		
+		.tabdiv_top_left{
+			width:102px; float:left; height:25px; line-height:25px;
+		}
+		.tabdiv_top_right{
+			width:9px; float:left; height:25px;padding-right:3px;line-height:25px;;
+		}

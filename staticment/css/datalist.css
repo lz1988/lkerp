@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+button			{ background:url('../images/button_bj.gif') no-repeat; width:75px; height:22px; border:none;cursor:pointer; margin:2px 4px 2px 0;}
+button.six		{ background:url('../images/button_bj_6.gif') no-repeat; width:90px;}
+button.eight	{ background:url('../images/button_bj_8.gif') no-repeat; width:110px;}
+
+#tab_menu_list 	{ margin-top:5px;background-color:#f9f9f9; text-align:center; font-size:12px; border-left:#D9D9D9 1px solid; border-bottom:none; border-top:none;border-right:none;}
+#tab_menu_list td {border-left:none;border-right: 1px solid #D9D9D9;border-top: 1px solid #D9D9D9;letter-spacing: 2px; border-bottom:none;}
+
+.tab_selected 	{ background:url('../images/bg_th.gif');color:#000; border-left: #d9edf9 1px solid !important; border-right:2px solid #d9edf9 !important;border-top:1px solid #d9edf9 !important;}
+.tab_selected a	{ color:#000 !important; font-weight:bold;}
+.tab_selected a	:hover,#tab_menu_list td a:hover { text-decoration: underline;}
+
+#searchform 	{ font-size:12px;}
+#searchform input,#searchform select{width:140px; height:22px;font-size: 12px; margin-top:5px;    
+	border-left: 1px solid #C2C2C2;
+    border-right: 1px solid #EAEAEA;
+    border-top: 1px solid #C2C2C2;
+	border-bottom:1px solid #eeeeee;
+	background: url("../images/input_bg.gif") no-repeat scroll left top transparent;}
+#searchform #subre{width:75px; height:22px; border:none; cursor:pointer;background-image:url(../images/button_bj.gif);}
+#searchform .twodate{ width:65px;}

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>左导航</title>
+<style type="text/css">
+body{ font-size:12px; margin:0px;}
+a { color:#000;}
+#m-left{
+	margin-left:20px;
+	margin-top:1px;
+	background:#ececec;
+	width:185px;
+	height:600px;
+	overflow-y:auto;
+	border-right:1px solid #bdbdbd;
+	border-bottom:1px solid #bdbdbd;
+	padding:10px;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=120,strength=1);/*ie*/
+	-moz-box-shadow: 0px 1px 3px #909090;/*firefox*/
+	-webkit-box-shadow: 0px 1px 3px #909090;/*safari或chrome*/
+	box-shadow:0px 1px 3px #909090;/*opera或ie9*/
+}
+.padd{
+	PADDING-LEFT: 20px;
+}
+</style>
+<script type="text/javascript">
+function expand(no)
+{
+	childObj = document.getElementById("child" + no);
+	if (childObj.style.display == 'none'){
+		childObj.style.display = 'block';
+	}else{
+		childObj.style.display = 'none';
+	}
+	return;
+}
+</SCRIPT>
+</head>
+<body>
+<div id="m-left">
+
+<!--产品管理模块-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(1) href="javascript:void(0);"><b>产品管理</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child1 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="product_list.html" target=main>-产品列表</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="product_new.html" target=main>-新增产品</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="pcat_manerge.html" target=main>-分类管理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="sku_ablem.html" target=main>-产品拆装</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="sku_alias.html" target=main>-别名查询</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="shipfare_count.html" target=main>-运费估算</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="sku_alias_api.html" target=main>-平台SKU检测</A></TD></TR>
+    </TABLE>
+
+
+<!--订单管理模块-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(2) href="javascript:void(0);"><b>订单管理</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child2 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="beihuodingdan.html" target=main>-备货订单</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="caigoudingdan.html" target=main>-采购订单</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="chukudingdan.html" target=main>-出库订单</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="wuliaodiaobo.html" target=main>-物料调拨</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="Eyoubaol.html" target=main>-E邮宝订单</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="dingdanhaoyinshe.html" target=main>-订单号映射</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="dingdanxinxichuli.html" target=main>-订单信息处理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="gerenxiaoshoujilu.html" target=main>-个人销售记录</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="upsdingdanshengcheng.html" target=main>-ups订单生成</A></TD></TR>
+    </TABLE>
+
+
+<!--订单管理模块-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(3) href="javascript:void(0);"><b>库存管理</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child3 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="changguiruku.html" target=main>-常规入库</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="qitaruku.html" target=main>-其它入库</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="qitachuku.html" target=main>-其它出库</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="qingkupandian.html" target=main>-清库盘点</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="buliangpindiaobo.html" target=main>-不良品调拨</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="buliangpinjiancha.html" target=main>-不良品查询</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="rukuminxibiao.html" target=main>-入库明细表</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="chukuminxibiao.html" target=main>-出库明细表</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="chukuhuizongbiao.html" target=main>-出库汇总表</A></TD></TR>
+    </TABLE>
+
+<!--RMA管理模块-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(5) href="javascript:void(0);"><b>RMA管理</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child5 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="badorder.html" target=main>-异常订单</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="back_money.html" target=main>-退款明细</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="back_pro.html" target=main>-退货明细</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="rma_report.html" target=main>-RMA报表</A></TD></TR>
+    </TABLE>
+
+
+<!--财务管理-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(7) href="javascript:void(0);"><b>财务管理</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child7 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="soldconf.html" target=main>-销售管理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="warehouseconf.html" target=main>-仓库设置</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="coincodeconf.html" target=main>-汇率调整</A></TD></TR>
+    </TABLE>
+
+
+<!--功能插件模块-->
+<TABLE cellSpacing=0 cellPadding=0 width=150 border=0>
+    <TR height=22><TD><A  class=menuParent onclick=expand(8) href="javascript:void(0);"><b>功能插件</b></A></TD></TR>
+</TABLE>
+    <TABLE id=child8 style="DISPLAY: none" cellSpacing=0 cellPadding=0  width=150 border=0>
+              <TR height=20><TD  class="padd"><A class=menuChild href="userlist.html" target=main>-用户列表</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="set_rights.html" target=main>-权限分配</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="sys_settings.html" target=main>-信息设置</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="department.html" target=main>-部门管理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="company_news.html" target=main>-公司通告</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="menulist.html" target=main>-菜单管理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="supplier_msg.html" target=main>-账期信息</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="interface_amazon.html" target=main>-接口配置</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="supplier_manerge.html" target=main>-供应商管理</A></TD></TR>
+              <TR height=20><TD class="padd"><A class=menuChild href="tiaoxinma.html" target=main>-条形码管理</A></TD></TR>
+    </TABLE>
+</div>
+</body>
+</html>
+

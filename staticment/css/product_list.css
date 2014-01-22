@@ -1,0 +1,16 @@
+
+/* tooltip */
+#tooltip{
+	position:absolute;
+	border:1px solid #ccc;
+	background:#333;
+	padding:2px;
+	display:none;
+	color:#fff;
+}
+.big {font-size: 16px}
+.point { cursor:pointer;}
+#subinput{width:82px; height:20px; border:none; cursor:pointer;}
+#supplier { margin-left:0px; position:absolute; width:300px;}
+#selsupplier { margin-left:200px; position:absolute;}
+#suplist { font-size:14px;}

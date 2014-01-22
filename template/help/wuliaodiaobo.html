@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>帮助文档</title>
+<style type="text/css">
+body{ font-size:12px; margin:1px;}
+.con{
+	background:#eeeeee;
+	padding:30px 10px 10px 30px;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=#909090,direction=210,strength=1);/*ie*/
+	-moz-box-shadow: -1px 1px 3px #909090;/*firefox*/
+	-webkit-box-shadow: -1px 1px 3px #909090;/*safari或chrome*/
+	box-shadow:-1px 1px 3px #909090;/*opera或ie9*/
+}
+</style>
+</head>
+<body>
+<div class="con">
+  <p><h2>物料调拨 </h2></p>
+  <p>物料调拨是产品转仓的操作，将产品从一个仓库转到另外一个仓库，该操作页面与销售下单有比较多相同的地方。 <br />
+      <img width="761" height="277" src="../../data/images/help/wuliaodiaobo_clip_image002.gif" /> </p>
+      <p>&nbsp;</p>
+  <p><strong>1</strong><strong>、预出库</strong>，与销售下单一样，预出库是显示刚下的订单，订单添加可以通过手工录入与导入订单表格，转仓的订单表格有表格模板可供下载，销售人员同样可以进行订单的合并与取消，编辑与删除(只能操作本人的记录)，物流人员可进行接收操作。 接收操作需要配置权限，权限同上。 </p>
+  <p>下面详述添加订单，在亚马逊卖家后台创建shipment。<br />
+      <img width="617" height="185" src="../../data/images/help/wuliaodiaobo_clip_image004.gif" /></p>
+  <p>&nbsp;</p>
+  <p>打开ERP订单管理中的物料调拨，点击添加订单，手动添加订单与销售下单相似，填写完数据后点击检测按钮检测数据的正确性与库存，无误则显示保存按钮供保存，注意的是，填写完单箱数量与箱数后，总数量是系统自动计算出来的，但是有时候，不一定每一箱数量都一样。所以单箱数量与箱数是供参考的，严格要求准确的是总数量，另外按照创建的shipment，输入数据，如下图： <br />
+      <img width="893" height="154" src="../../data/images/help/wuliaodiaobo_clip_image006.gif" /></p>
+	<p>&nbsp;</p>
+  <p>与销售下单一样，物料调拨的同样可以批量导入订单，下载模板表格，按表头对应填写好内容即可上传。 <br />
+      <img width="463" height="151" src="../../data/images/help/wuliaodiaobo_clip_image008.gif" /></p>
+      <p>&nbsp;</p>
+  <p>导入与添加的订单会显示在预出库，销售可以对订单进行合并与取消合并，可以取消搁置异常订单，可以修改与删除。<br />
+      <img width="453" height="182" src="../../data/images/help/wuliaodiaobo_clip_image010.gif" /></p>
+  <p>&nbsp;</p>
+  <p>以下是物流的相关操作，如勾选订单记录，进行接收，接收后订单会转至已接收状态。<br />
+      <img width="849" height="259" src="../../data/images/help/wuliaodiaobo_clip_image012.jpg" /></p>
+  <p><strong>&nbsp;</strong></p>
+  <p><strong>2</strong><strong>、已接收</strong>，该状态中的订单可以回退与编辑，都属于物流人员的操作，回退操作会将订单回退至预出库状态，编辑不是订单的编辑，而是填写运费，物流跟踪号等信息，如果订单的产品已经发出去了，物流人员需要进行确认出库，订单将转至已出库状态，供仓管做入库。<br />
+      <img width="846" height="261" src="../../data/images/help/wuliaodiaobo_clip_image014.jpg" /></p>
+  <p><strong>3、待发货</strong>，该状态订单可以回退，编辑操作可以填写物流追踪号和物流方式。</p>
+  <p><img src="../../data/images/help/wuliaodiaobo.jpg" alt="" width="439" height="179" /></p>
+  <p>在待发货的状态，列表显示运费预估，是根据目的国家，发货方式，sku的重量，数量，来计算运费。</p>
+<p><strong>4、已出库</strong>，表示此转仓流程的出仓业务流程已完成，等待接收仓的仓管人员做入库，“已出库”中同样可以编辑物流信息，同“已接收”状态的编辑。 <br />
+      <img width="473" height="129" src="../../data/images/help/wuliaodiaobo_clip_image016.gif" /></p>
+<p>在已出库状态，列表显示预估运费和反写运费，预估运费同上待发货状态，反写运费是根据订单号对应的sku，每个sku的实重和体积重的所占总计的比例，</p>
+<p>乘以每个物流追踪号对应的运费，每个sku进行分摊得到。</p>
+<p>&nbsp;</p>
+  <p align="left">最后附上物料调拨权限分配说明： <br />
+      <img width="537" height="310" src="../../data/images/help/wuliaodiaobo_clip_image018.gif" /></p>
+</div>
+</body>
+</html>

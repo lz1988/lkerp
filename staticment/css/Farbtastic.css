@@ -1,0 +1,32 @@
+.farbtastic {
+    position: relative;
+}
+.farbtastic * {
+    cursor: crosshair;
+    position: absolute;
+}
+.farbtastic, .farbtastic .wheel {
+    height: 195px;
+    width: 195px;
+}
+.farbtastic .color, .farbtastic .overlay {
+    height: 101px;
+    left: 47px;
+    top: 47px;
+    width: 101px;
+}
+.farbtastic .wheel {
+    background: url("../images/wheel.png") no-repeat scroll 0 0 transparent;
+    height: 195px;
+    width: 195px;
+}
+.farbtastic .overlay {
+    background: url("../images/mask.png") no-repeat scroll 0 0 transparent;
+}
+.farbtastic .marker {
+    background: url("../images/marker.png") no-repeat scroll 0 0 transparent;
+    height: 17px;
+    margin: -8px 0 0 -8px;
+    overflow: hidden;
+    width: 17px;
+}
