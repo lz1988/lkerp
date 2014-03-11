@@ -8,33 +8,34 @@
 
 /*上传配置数组*/
 $fieldarray = array(
-                'detail'	=>array('A','B','C','D','E','F','G','H','I','J','K','L','M'),
-                'detailnew'	=>array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'),
-                'outbound'	=>array('A','I','N'),
-                'allorder'	=>array('A','B','L','AB'),
-                'final'		=>array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'),
-                'upload_dir'=>"./data/uploadexl/orders/",
-                'reckoning'	=>array('A','B','C','D')//结帐明细
+    'detail'	=>array('A','B','C','D','E','F','G','H','I','J','K','L','M'),
+    'detailnew'	=>array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'),
+    'outbound'	=>array('A','I','N'),
+    'allorder'	=>array('A','B','L','AB'),
+    'final'		=>array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'),
+    'upload_dir'=>"./data/uploadexl/orders/",
+    'reckoning'	=>array('A','B','C','D')//结帐明细
 );
 $upload_exl_service 	= $this->C->Service('upload_excel');
-ini_set('memory_limit','1000M'); 
+ini_set('memory_limit','1000M');
+
 if($detail == 'list'){ 
     /*搜索选项，注意增加条件需要手动在导出按钮处加条件*/
     $stypemu = array(
-            'statu-h-e'		=>'状态',
-            'deal_sku-s-l'	=>'平台SKU：',
-            'erp_sku-s-l'	=>'ERP &nbsp;SKU：',
-            'deal_id-s-l'	=>'平台单号：',
-            'fid-s-l'		=>'第三方单号：',
-            'erp_pname-s-l'	=>'<br>中文描述：',
-            'shipway-a-e'	=>'发&nbsp;货&nbsp;方&nbsp;式：',
-            'address-a-e'	=>'账号代码：',
-            'buyer_id-a-e'	=>'收&nbsp;款&nbsp;账&nbsp;号&nbsp;：',
-            'date-t-t'		=>'日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;：',
-            'cuser-s-e'		=>'&nbsp;&nbsp;&nbsp;制&nbsp;单&nbsp;人&nbsp;&nbsp;：',
-            'currency-a-'  =>'&nbsp;&nbsp;&nbsp;币&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;：',
-            'checktime-b-'     =>'审&nbsp;核&nbsp;期&nbsp;间&nbsp;：',
-            'fstcreate-t-t' =>'录入时间：',
+        'statu-h-e'		=>'状态',
+        'deal_sku-s-l'	=>'平台SKU：',
+        'erp_sku-s-l'	=>'ERP &nbsp;SKU：',
+        'deal_id-s-l'	=>'平台单号：',
+        'fid-s-l'		=>'第三方单号：',
+        'erp_pname-s-l'	=>'<br>中文描述：',
+        'shipway-a-e'	=>'发&nbsp;货&nbsp;方&nbsp;式：',
+        'address-a-e'	=>'账号代码：',
+        'buyer_id-a-e'	=>'收&nbsp;款&nbsp;账&nbsp;号&nbsp;：',
+        'date-t-t'		=>'日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;期&nbsp;：',
+        'cuser-s-e'		=>'&nbsp;&nbsp;&nbsp;制&nbsp;单&nbsp;人&nbsp;&nbsp;：',
+        'currency-a-'   =>'&nbsp;&nbsp;&nbsp;币&nbsp;&nbsp;别&nbsp;&nbsp;&nbsp;：',
+        'checktime-b-'  =>'审&nbsp;核&nbsp;期&nbsp;间&nbsp;：',
+        'fstcreate-t-t' =>'录入时间：',
     );
     
     //审核日期文本搜索
@@ -47,7 +48,7 @@ if($detail == 'list'){
        $tik = substr($val, 0, strpos($val,'-'));
        if ($$tik !="") $outputparam.= '&'.$tik.'='.urlencode($$tik);
     }
-    $outputparam.='&startTime='.$startTime.'&endTime='.$endTime;//时间特别处理
+    $outputparam.='&startTime='.$startTime.'&endTime='.$endTime.'&fstcreatestartTime='.$fstcreatestartTime.'&fstcreateendTime='.$fstcreateendTime;//时间特别处理
     
     /*取得发货方式下拉*/
     $shipping_mu	= $this->S->dao('shipping')->D->get_allstr('','','','s_name');
@@ -67,7 +68,7 @@ if($detail == 'list'){
     $recaccountarr	= $this->S->dao('finance_payrec_account')->D->get_allstr('','','','payrec_account');
     $buyer_idarr	= array(''=>'=请选择=');
     for($i = 0; $i < count($recaccountarr); $i++){
-            $buyer_idarr[$recaccountarr[$i]['payrec_account']] = $recaccountarr[$i]['payrec_account'];
+        $buyer_idarr[$recaccountarr[$i]['payrec_account']] = $recaccountarr[$i]['payrec_account'];
     } 
     
     //币别
@@ -94,7 +95,7 @@ if($detail == 'list'){
     $sqlstr = strtr($sqlstr, array('fid'=>'3rd_part_id'));
 
     /*分页参数,默认15,注意放在statu处理之后,查表之前*/
-    $showperhtml= $this->C->service('warehouse')->perpage_show_html(array('0'=>'15','1'=>'50','2'=>'200','3'=>'1000'),$selfval_set,$statu);
+    $showperhtml= $this->C->service('warehouse')->perpage_show_html(array('0'=>'15','1'=>'50','2'=>'200','3'=>'1000','4'=>'6000'),$selfval_set,$statu);
 
     /*本位币*/
     if (!empty($currency)) $de_coin = $currency; else $de_coin	= $this->C->service('global')->get_system_defaultcoin();
@@ -136,27 +137,29 @@ if($detail == 'list'){
                 $val['warehouse_shipping'] = ($val['quantity'] * $sku_box_shipping_weight['shipping_weight'] * $_shipping['shipping'])/$box_shipping_weight;
             
                 //仓库分摊运费，统一转化当前订单币别
-                $val['warehouse_shipping'] = number_format($exservice->change_rate("USD", $val['currency'], $val['warehouse_shipping']),2);
+                $val['warehouse_shipping'] = round($exservice->change_rate("USD", $val['currency'], $val['warehouse_shipping']),2);
             }else{
                 $val['warehouse_shipping'] = '0.00';
             }
         }
         
         
-        
          //成本
         $val['cost1'] = $val['cost1'] * $val['quantity'];
         
         //成本原币别为USD,为了统计合计，统一转化为该订单原币别
-        $val['cost1']  = number_format($exservice->change_rate("USD", $val['currency'], $val['cost1']),2);
+        $val['cost1']  = round($exservice->change_rate("USD", $val['currency'], $val['cost1']),2);
                 
         //小计
         $val['xiaoji']	= $val['price'] + $val['shipprice'] + $val['shipfee'] + $val['amazonfee'] + $val['otherfee'] + $val['paypalfee'] + $val['ebayfee'];
         
-        //合计
-        $val['allsums'] = $val['price'] + $val['shipprice'] + $val['shipfee'] + $val['amazonfee'] + $val['otherfee'] + $val['paypalfee'] + $val['ebayfee'] - $val['cost1'] - $val['warehouse_shipping'];
+         //合计
+        $val['allsums'] = $val['xiaoji'] - $val['cost1'] - $val['warehouse_shipping'];
+        
         if ($val['currency'] != $de_coin){
             $val['allsumscoin'] = number_format($exservice->change_rate($val['currency'], $de_coin, $val['allsums']), 2);
+        }else{
+            $val['allsumscoin'] = number_format($val['allsums'], 2);
         }
         
         if (!empty($currency) && $val['currency'] != $de_coin){ 
@@ -171,7 +174,7 @@ if($detail == 'list'){
             $val['cost1']       = number_format($exservice->change_rate($val['currency'], $de_coin, $val['cost1']), 2);
             $val['allsums']     = number_format($exservice->change_rate($val['currency'], $de_coin, $val['allsums']),2);
             $val['xiaoji']      = number_format($exservice->change_rate($val['currency'], $de_coin, $val['xiaoji']),2);
-            $val['warehouse_shipping'] = number_format($exservice->change_rate($val['currency'],$de_coin,$val['warehouse_shipping']),2);
+            $val['warehouse_shipping'] = round($exservice->change_rate($val['currency'],$de_coin,$val['warehouse_shipping']),2);
 		}
         
         $val['address'] = $addressarr[$val['address']];//替换成账号代码    
@@ -227,7 +230,8 @@ if($detail == 'list'){
     $this->V->mark(array('title'=>'订单数据列表'));
     $temp = 'pub_list';
  }
- /*删除*/
+ 
+/*删除*/
 else if($detail == 'delete'){
     if(!$this->C->service('admin_access')->checkResRight('order_soldmod_del')){$this->C->ajaxmsg(0);}
     $detaildata = $this->S->dao('orders_detail')->D->get_one(array('id'=>$id),'cuser');
@@ -292,7 +296,7 @@ else if($detail == 'delete'){
                 $val['warehouse_shipping'] = ($val['quantity'] * $sku_box_shipping_weight['shipping_weight'] * $_shipping['shipping'])/$box_shipping_weight;
                 
                 //仓库分摊运费，统一转化当前订单币别
-                $val['warehouse_shipping'] = number_format($exservice->change_rate("USD", $val['currency'], $val['warehouse_shipping']),2);
+                $val['warehouse_shipping'] = round($exservice->change_rate("USD", $val['currency'], $val['warehouse_shipping']),2);
             }else{
                 $val['warehouse_shipping'] = '0.00';
             }
@@ -302,17 +306,19 @@ else if($detail == 'delete'){
         $val['cost1'] = $val['cost1'] * $val['quantity'];
         
         //成本原币别为USD,为了统计合计，统一转化为该订单原币别
-        $val['cost1']  = number_format($exservice->change_rate("USD", $val['currency'], $val['cost1']),2);
-        
+        $val['cost1']  = round($exservice->change_rate("USD", $val['currency'], $val['cost1']),2);
+                
         //小计
         $val['xiaoji']	= $val['price'] + $val['shipprice'] + $val['shipfee'] + $val['amazonfee'] + $val['otherfee'] + $val['paypalfee'] + $val['ebayfee'];
         
-		/*算出合计，并且转换人民币*/
-		$val['allsums']	= $val['price'] + $val['shipprice'] + $val['shipfee'] + $val['amazonfee'] + $val['otherfee'] + $val['paypalfee'] + $val['ebayfee'] - $val['cost1'] - $val['warehouse_shipping'];
-
-		if($val['currency'] != $de_coin){
-			$val['allsumscoin'] = number_format($exservice->change_rate($val['currency'], $de_coin, $val['allsums']), 2);
-         }   
+         //合计
+        $val['allsums'] = $val['xiaoji'] - $val['cost1'] - $val['warehouse_shipping'];
+        
+        if ($val['currency'] != $de_coin){
+            $val['allsumscoin'] = number_format($exservice->change_rate($val['currency'], $de_coin, $val['allsums']), 2);
+        }else{
+            $val['allsumscoin'] = number_format($val['allsums'], 2);
+        }
          
         if (!empty($currency) && $val['currency'] != $de_coin){ 
             //币别统一转化
@@ -325,8 +331,8 @@ else if($detail == 'delete'){
             $val['ebayfee']     = number_format($exservice->change_rate($val['currency'], $de_coin, $val['ebayfee']), 2);
             $val['cost1']       = number_format($exservice->change_rate($val['currency'], $de_coin, $val['cost1']), 2);
             $val['allsums']     = number_format($exservice->change_rate($val['currency'], $de_coin, $val['allsums']),2);
-            $val['xiaoji']     = number_format($exservice->change_rate($val['currency'], $de_coin, $val['xiaoji']),2);
-            $val['warehouse_shipping'] = number_format($exservice->change_rate($val['currency'],$de_coin,$val['warehouse_shipping']),2);
+            $val['xiaoji']      = number_format($exservice->change_rate($val['currency'], $de_coin, $val['xiaoji']),2);
+            $val['warehouse_shipping'] = round($exservice->change_rate($val['currency'],$de_coin,$val['warehouse_shipping']),2);
 		}
 		$val['address']	= $addressarr[$val['address']];//替换成账号代码
 	}
@@ -365,7 +371,7 @@ else if($detail == 'delete'){
 		'comment'		=> '备注',
 	);
 	$this->C->service('upload_excel')->download_excel($filename,$head_array,$datalist);
- }
+}
 
 /*审核与反审*/
 elseif($detail == 'audit'){
@@ -589,6 +595,8 @@ elseif($detail == 'import_detail_news'){
 
 		$all_arr_detail =  $upload_exl_service->get_excel_datas_withkey($filepath, $fieldarray['detailnew'], 1);
 		unset($all_arr_detail['0']);//删除表头
+        
+        $global = $this->C->service('global');
 
 		$temp_sells->D->query('begin');//采用事务
 
@@ -597,7 +605,8 @@ elseif($detail == 'import_detail_news'){
 
 			/*插入临时表*/
 			$insertArr = array(
-				'datetime'				=>date('Y-m-d H:i:s',strtotime($vald['date/time'])-16*3600),//减去16个时差，保持数字一致
+				//'datetime'				=>date('Y-m-d H:i:s',strtotime($vald['date/time'])-16*3600),//减去16个时差，保持数字一致
+                'datetime'              =>$global->changetime_ymdhis($vald['date/time']),
 				'order_id'				=>$vald['order id'],
 				'3rd_part_id'			=>$vald['3rd_part_id'],
 				'sku'					=>$vald['sku'],
@@ -620,7 +629,7 @@ elseif($detail == 'import_detail_news'){
 			if(!$sid) $errornum++;
 		}
 
-
+       
 		if(empty($errornum)){
 			$temp_sells->D->query('commit');
 		}else{
@@ -628,14 +637,18 @@ elseif($detail == 'import_detail_news'){
 			echo "<script>alert('处理失败，请重新导入！');</script>";
 			exit;
 		}
+        
 
 		/*查询数据组合并弹出下载*/
 		$datalist	= $temp_sells->get_moddatalist($thismark);
+        
 		foreach($datalist as &$valn){
-			//$datatimeNum		= date('Y-m-d',strtotime($valn['datetime']));
-			//$declare	 		= (strtotime($datatimeNum)-strtotime('2012-01-01 0'))/3600/24;//求天数差
-			//$valn['datetime']	= $valn['datetime'];
-            //$valn['datetime']   = $valn['datetime'];
+		      //echo $valn['datetime'];die();
+            //$valn['datetime'] = $global->changetime_ymdhis($valn['datetime']);//时间转换
+			/*$datatimeNum		= date('Y-m-d',strtotime($valn['datetime']));
+			$declare	 		= (strtotime($datatimeNum)-strtotime('2012-01-01'))/3600/24;//求天数差
+			$valn['datetime']	= $declare + 40909;*/
+            
             //日期统一按照时间格式处理
 
 			$valn['deal_pname'] = $valn['erp_pname'];

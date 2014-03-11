@@ -1,10 +1,17 @@
 <?php
 if ($detail == 'list') {
 	$stypemu = array(
-		'sold_way-s-l'=>'&nbsp; &nbsp; 销售渠道：',
+		'sold_way-a-'=>'&nbsp; &nbsp; 销售渠道：',
 		'cdate-t-t'=>'&nbsp; &nbsp;日期：',
 	);
 
+    /*取得销售渠道下拉*/
+    $soldway = $this->S->dao('sold_way')->getSoldWayList();
+    $sold_wayarr	 = array(''=>'=请选择=');
+    for($i = 0; $i < count($soldway); $i++){
+        $sold_wayarr[$soldway[$i]['id']] = $soldway[$i]['wayname'];
+    }
+    
 	/*导出报表，需要时删除注释*/
 	//$bannerstr = '<button onclick=window.location="index.php?action=report_sold_bydate&detail=output&order='.$order.'&sold_way='.$sold_way.'&startTime='.$startTime.'&endTime='.$endTime.'">导出数据</button>';
 

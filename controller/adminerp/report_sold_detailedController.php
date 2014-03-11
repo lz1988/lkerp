@@ -2,27 +2,23 @@
 /**
  * 发货明细表
  */
-
-
-
-if ($detail == 'list') { 
-    
+if ($detail == 'list') {
 	/*搜索选项*/
 	$stypemu = array(
 		'order_id-s-e'	=>'订单号：',
 		'sku-s-l'	=>'&nbsp;&nbsp;&nbsp;&nbsp;SKU：',
 		'sold_way-a-e'	=>'&nbsp;&nbsp;渠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道：',
-                'sold_id-a-e'	=>'&nbsp;&nbsp;销售账号：',
+        'sold_id-a-e'	=>'&nbsp;&nbsp;销售账号：',
 		'cuser-s-l'	=>'<br>制单人：',
 		'buyer_id-s-l'	=>'搜索号：',
 		'cdate-t-t'	=>'订单日期：',
 		'rdate-t-t'	=>'&nbsp;&nbsp;发货日期：',
-                'provider_id-a-e'=>'<br>发出仓库：',
+        'provider_id-a-e'=>'<br>发出仓库：',
 	);
 
 	$InitPHP_conf['pageval'] = 20; 
         
-        /*取得仓库下拉-用于生成搜索条件*/
+    /*取得仓库下拉-用于生成搜索条件*/
 	$wdata = $this->S->dao('esse')->D->get_all(array('type'=>2),'','','id,name');
 	$provider_idarr = array(''=>'=请选择=');
 	for($i=0;$i<count($wdata);$i++){
@@ -36,58 +32,57 @@ if ($detail == 'list') {
 	$soldaccount	= $this->S->dao('sold_account')->D->get_allstr('','','','id,account_name');
 	$sold_idarr		= array(''=>'=请选择=');
 	for($i = 0; $i < count($soldaccount); $i++){
-            $sold_idarr[$soldaccount[$i]['id']] = $soldaccount[$i]['account_name'];
+        $sold_idarr[$soldaccount[$i]['id']] = $soldaccount[$i]['account_name'];
 	} 
         
 	if ($sqlstr) {
 		/*导出数据按钮*/
 		$bannerstrarr[] = array('url'=>'index.php?action=report_sold_detailed&detail=output','value'=>'导出数据');
+        $sqlstr =  str_replace('cdate','p.cdate',$sqlstr);
 		$datalist = $this->S->dao('process')->get_outbondlist($sqlstr); 
 		for($i=0;$i<count($datalist);$i++){
-                    $datalist[$i] = $this->C->service('warehouse')->decodejson($datalist,$i);//将数组中的压缩内容解压并作为字段增加入数据中
+            $datalist[$i] = $this->C->service('warehouse')->decodejson($datalist,$i);//将数组中的压缩内容解压并作为字段增加入数据中
 
-                    $datalist[$i]['cdate'] 	= date('Y-m-d', strtotime($datalist[$i]['cdate']));
-                    $datalist[$i]['rdate'] 	= date('Y-m-d', strtotime($datalist[$i]['rdate']));
-                    $datalist[$i]['address'] = $datalist[$i]['e_address1'].'-'.$datalist[$i]['e_address2'];
-                    $temparr = $this->S->dao('product')->D->select('shipping_weight','sku='.$datalist[$i]['sku']);
-                    $datalist[$i]['weight'] = $temparr['shipping_weight'] * $datalist[$i]['quantity'];
+            $datalist[$i]['cdate'] 	= date('Y-m-d', strtotime($datalist[$i]['cdate']));
+            $datalist[$i]['rdate'] 	= date('Y-m-d', strtotime($datalist[$i]['rdate']));
+            $datalist[$i]['address'] = $datalist[$i]['e_address1'].'-'.$datalist[$i]['e_address2'];
+            $temparr = $this->S->dao('product')->D->select('shipping_weight','sku='.$datalist[$i]['sku']);
+            $datalist[$i]['weight'] = $temparr['shipping_weight'] * $datalist[$i]['quantity'];
 
-                    $temparr = $this->S->dao('product_cost')->D->select('cost2,coin_code', 'pid='.$datalist[$i]['pid']);
-                    $datalist[$i]['cost'] = $temparr['cost2']; 
+            $temparr = $this->S->dao('product_cost')->D->select('cost2,coin_code', 'pid='.$datalist[$i]['pid']);
+            $datalist[$i]['cost'] = $temparr['cost2']; 
 
-                    if ($temparr['coin_code'] != 'USD') {
-                            $datalist[$i]['cost'] = $this->C->service('exchange_rate')->change_usd($temparr['coin_code'],$datalist[$i]['cost']);
-                    }
+            if ($temparr['coin_code'] != 'USD') {
+                    $datalist[$i]['cost'] = $this->C->service('exchange_rate')->change_usd($temparr['coin_code'],$datalist[$i]['cost']);
+            }
 
-                    $datalist[$i]['total_cost'] = $datalist[$i]['cost'] * $datalist[$i]['quantity'];
-                    $datalist[$i]['total_cost'] = number_format($datalist[$i]['total_cost'], 2);
+            $datalist[$i]['total_cost'] = $datalist[$i]['cost'] * $datalist[$i]['quantity'];
+            $datalist[$i]['total_cost'] = number_format($datalist[$i]['total_cost'], 2);
 
-                    $temparr = $this->S->dao('esse')->D->select('name', 'id='.$datalist[$i]['provider_id']);
-                    $datalist[$i]['provider_id']= $temparr['name'];
+            $temparr = $this->S->dao('esse')->D->select('name', 'id='.$datalist[$i]['provider_id']);
+            $datalist[$i]['provider_id']= $temparr['name'];
 
-                    if (!$datalist[$i]['e_shipping_price']) {
-                            $datalist[$i]['e_shipping_price'] = '0.00';
-                    }
-                    if (!$datalist[$i]['e_performance_fee']) {
-                            $datalist[$i]['e_performance_fee'] = '0.00';
-                    }
-                    if (!$datalist[$i]['e_shipping_fee']) {
-                            $datalist[$i]['e_shipping_fee'] = '0.00';
-                    }
-                    /*应king要求改的*/
-                    //产品收入=单价*数量
-                    $datalist[$i]['price']              = $datalist[$i]['price']*$datalist[$i]['quantity'];
-                    //总收入=产品收入+运费
-                    $datalist[$i]['total_price']        = $datalist[$i]['price'] + $datalist[$i]['e_shipping_price']; 
-                    
-                    $datalist[$i]['e_shipping_price']   = number_format($datalist[$i]['e_shipping_price'], 2);
-                    $datalist[$i]['e_performance_fee']  = number_format($datalist[$i]['e_performance_fee'], 2);
-                    $datalist[$i]['e_shipping_fee']     = number_format($datalist[$i]['e_shipping_fee'], 2);
-                                      
-                    
-                    $datalist[$i]['sold_id'] = $datalist[$i]['sold_id']?$sold_idarr[$datalist[$i]['sold_id']]:'';
-                    //同一个订单有多个产品的处理
-                    $datalist[$i]['order_id'] = ($datalist[$i]['order_id'] == $datalist[$i-1]['order_id'])?'':$datalist[$i]['order_id'];
+            if (!$datalist[$i]['e_shipping_price']) {
+                    $datalist[$i]['e_shipping_price'] = '0.00';
+            }
+            if (!$datalist[$i]['e_performance_fee']) {
+                    $datalist[$i]['e_performance_fee'] = '0.00';
+            }
+            if (!$datalist[$i]['e_shipping_fee']) {
+                    $datalist[$i]['e_shipping_fee'] = '0.00';
+            }
+           
+            //总收入=产品收入+运费
+            $datalist[$i]['total_price']        = $datalist[$i]['price'] + $datalist[$i]['e_shipping_price']; 
+            
+            $datalist[$i]['e_shipping_price']   = number_format($datalist[$i]['e_shipping_price'], 2);
+            $datalist[$i]['e_performance_fee']  = number_format($datalist[$i]['e_performance_fee'], 2);
+            $datalist[$i]['e_shipping_fee']     = number_format($datalist[$i]['e_shipping_fee'], 2);
+                              
+            
+            $datalist[$i]['sold_id'] = $datalist[$i]['sold_id']?$sold_idarr[$datalist[$i]['sold_id']]:'';
+            //同一个订单有多个产品的处理
+            $datalist[$i]['order_idd'] = ($datalist[$i]['order_id'] == $datalist[$i-1]['order_id']) ? '' : $datalist[$i]['order_id'];
 		}
 	}
 
@@ -95,7 +90,7 @@ if ($detail == 'list') {
 	$tablewidth = '1900';
 	$displayarr['cdate']                = array('showname'=>'订单日期','width'=>'100');
 	$displayarr['rdate']                = array('showname'=>'发货日期','width'=>'120');
-	$displayarr['order_id']             = array('showname'=>'订单号','width'=>'80');
+	$displayarr['order_idd']             = array('showname'=>'订单号','width'=>'80');
 	$displayarr['deal_id']              = array('showname'=>'平台单号','width'=>'100');
 	$displayarr['fid']                  = array('showname'=>'第三方单号','width'=>'150');
 	$displayarr['sku']                  = array('showname'=>'产品SKU','width'=>'100');
@@ -110,7 +105,7 @@ if ($detail == 'list') {
 	$displayarr['total_cost']           = array('showname'=>'产品总成本','width'=>'150');
 	$displayarr['e_shipping']           = array('showname'=>'发货方式','width'=>'120');
 	$displayarr['sold_way']             = array('showname'=>'销售渠道','width'=>'120');
-        $displayarr['sold_id']              = array('showname'=>'销售账号','width'=>'120');
+    $displayarr['sold_id']              = array('showname'=>'销售账号','width'=>'120');
 	$displayarr['provider_id']          = array('showname'=>'发货仓库','width'=>'120');
 	$displayarr['comment2']             = array('showname'=>'物流跟踪号','width'=>'120');
 	$displayarr['weight']               = array('showname'=>'重量','width'=>'80');
@@ -122,9 +117,12 @@ if ($detail == 'list') {
 	$displayarr['cuser']                = array('showname'=>'制单人','width'=>'80');
 	$temp = 'pub_list';
 }
+
 elseif ($detail == 'output') { 
+    
+    $sqlstr =  str_replace('cdate','p.cdate',$sqlstr);
 	$datalist = $this->S->dao('process')->get_outbondlist($sqlstr); 
-        $soldaccount = $this->S->dao('sold_account')->D->get_allstr('','','','id,account_name');
+    $soldaccount = $this->S->dao('sold_account')->D->get_allstr('','','','id,account_name');
 	for($i = 0; $i < count($soldaccount); $i++){
 		$sold_idarr[$soldaccount[$i]['id']] = $soldaccount[$i]['account_name'];
 	}
@@ -162,9 +160,6 @@ elseif ($detail == 'output') {
 			$datalist[$i]['e_shipping_fee'] 	= '0.00';
 		}
 
-        /*应king要求改的*/
-        //产品收入=单价*数量
-        $datalist[$i]['price']              = $datalist[$i]['price']*$datalist[$i]['quantity'];
         //总收入=产品收入+运费
         $datalist[$i]['total_price']        = $datalist[$i]['price'] + $datalist[$i]['e_shipping_price']; 
                     
@@ -186,6 +181,7 @@ elseif ($detail == 'output') {
 					'deal_id'			=> '平台单号',
 					'fid'			 	=> '第三方单号',
 					'sku' 				=> '产品SKU',
+                    //'sku_join'          => '组SKU',
 					'product_name' 		=> '产品名称',
 					'quantity' 			=> '数量',
 					'price' 			=> '产品收入',

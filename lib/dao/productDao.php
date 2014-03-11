@@ -2,7 +2,7 @@
 class productDao extends D{
 	/*增加图片。取得所有产品列表，匹配条件，需要有类别，排列按问题数从高到低。*/
 	public function getProductList($sqlstr,$orders){
-		$sql = 'select o.cost1,o.cost2,o.coin_code,c.cat_name,p.pid,p.sku,p.product_name,p.conditionerp,p.create_user,p.cdate,p.shipping_weight,m.images,l.label_id,sku_assembly.assembleid,sku_shipping.shipping,sku_shipping.eid,GROUP_CONCAT(CONCAT(esse.name,":",sku_shipping.shipping)) as shipping from product as p
+		$sql = 'select o.cost1,o.cost2,o.coin_code,c.cat_name,p.pid,p.sku,p.product_name,p.conditionerp,p.create_user,p.cdate,p.shipping_weight,m.images,l.label_id,sku_assembly.assembleid,sku_shipping.shipping,sku_shipping.eid,GROUP_CONCAT(CONCAT(esse.name,":",sku_shipping.shipping)) as shippings from product as p
                 left join product_images as m on (p.pid=m.pid)
                 left join product_label as l on (p.pid=l.product_id and l.create_user=\''.$_SESSION['eng_name'].'\')
                 left join category  as c on (p.cat_id=c.cat_id)

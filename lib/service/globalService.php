@@ -476,7 +476,7 @@
      */
      public function changetime_ymdhis($value){
 		$newtime = date('Y-m-d H:i:s',strtotime($value) - 8 * 60 *60);
-	//	echo $newtime;die();
+		//echo $newtime;die();
 		if($newtime == '1970-01-01 00:00:00'){//若直接取不到正确时间
 			if(strlen($value) == 5 || strpos($value,'.') != false){
 				$newtime = date('Y-m-d H:i:s',($value - 25569) * 24 * 60 *60 - 8 * 60 * 60);

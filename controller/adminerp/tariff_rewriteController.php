@@ -24,7 +24,7 @@
     $displayarr['shipping']         = array('showname'=>'发货方式',  'width'=>'60');
    	$displayarr['track_no']         = array('showname'=>'物流追踪号', 'width'=>'100');
      $displayarr['ship_date']       = array('showname'=>'出口日期', 'width'=>'100');
-    $displayarr['tariff_costs']  	= array('showname'=>'运费', 'width'=>'60');
+    $displayarr['tariff_costs']  	= array('showname'=>'关税', 'width'=>'60');
     $bannerstr 		= '<button  onclick="window.location=\'index.php?action=tariff_rewrite&detail=import\'">导入关税</button>';
 
     $this->V->view['title'] = '关税反写列表';
@@ -156,7 +156,7 @@
 
 	$downloadtpl = '<div style="font-size:12px;line-height:20px;margin-bottom:30px"><div><a href="./data/uploadexl/sample/tariff_rewrite_tpl.xls" title="下载关税费用模板">下载关税费用模板>></a></div>';
 	$downloadtpl.= '</div>';
-	$this->V->mark(array('title'=>'运费账单导入-关税反写(list)','message_upload'=>$downloadtpl));
+	$this->V->mark(array('title'=>'关税导入-关税反写(list)','message_upload'=>$downloadtpl));
 	$this->V->set_tpl('adminweb/commom_excel_import');
 	display();
 }

@@ -813,32 +813,44 @@ elseif($detail == 'print_detail'){
 
 }
 
-
-/*合并订单-权限(①本人下的单②未接收)*/
+//合并订单-权限(①本人下的单②未接收)
 elseif($detail == 'combine'){
-
-
-	/*去掉由框架强制开启魔法变量添加的反斜杠*/
+	//去掉由框架强制开启魔法变量添加的反斜杠
 	$strid = stripslashes($strid);
-    //print_r($strid);die();
 	$process = $this->S->dao('process');
 	$backdata = $process->D->get_allstr(' and order_id in ('.$strid.')','','','cuser,statu,receiver_id');
-
-	for($i = 0; $i<count($backdata); $i++){
-
+    
+	for($i = 0; $i<count($backdata); $i++)
+    {
         if(strpos($strid,'x') != false || strpos($strid,'d') != false){
             if(!$this->C->service('admin_access')->checkResRight('r_w_editmod','mod',$backdata[$i]['cuser'])){$this->C->ajaxmsg(0);}
-	   }elseif(strpos($strid,'f') != false){
+        }elseif(strpos($strid,'f') != false){
 	        if(!$this->C->service('admin_access')->checkResRight('r_p_editorder','mod',$backdata[$i]['cuser'])){$this->C->ajaxmsg(0);}
     	}
 
 	   if($i && $backdata[$i]['receiver_id'] != $backdata[$i-1]['receiver_id']) exit('不合理操作,不能将目的仓库不同的订单合并 !');
 	}
-
+    
 	$maxorder = $process->maxorder(' and order_id in ('.$strid.')');
 	$sid = $process->D->update_sql(' where order_id in ('.$strid.')',array('order_id'=>$maxorder));
+    
+    //由于国内事业部更改的客服的操作方式，原来是又人工填写订单中的单价
+    //考虑到人手操作的复杂度，所以改为在表格的商品列中只有一个订单的总金额，收入根据市场指导价均摊
+    $price_data = $process->D->get_one_by_field(array('order_id'=>$maxorder),'price');
+    $price = $price_data["price"];//订单总金额
+    //获取所有的市场指导价总计
+    $total_market_price_data = $process->get_total_market_price(" where order_id='".$maxorder."'");
+    $total_market_price = $total_market_price_data["total_market_price"];//市场指导价总金额
+    //计算每份市场价涉及的平均值
+    $every = $price/$total_market_price;
+    $order_data = $process->D->get_allstr(" and order_id='".$maxorder."'",'','','id,quantity,market_price');
+    foreach($order_data as $val)
+    {
+        $item_price = $val['market_price']*$val['quantity']*$every;
+        //将这个金额更新到Price字段中
+        $process->D->update_sql(" where id='".$val['id']."'",array('price'=>$item_price));
+    }
 	if($sid){echo '合并成功，总单号：'.$maxorder;}else{echo '合并失败';}
-
 }
 
 /*取消合并-权限(①本人下的单②未接收，并且只能对一条合并的订单进行操作)*/

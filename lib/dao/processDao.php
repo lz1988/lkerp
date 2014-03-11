@@ -5,10 +5,8 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- class processDao extends D{
-  
-
-	/*备货列表*/
+class processDao extends D{
+    /*备货列表*/
 	public function upstock_list($sqlstr,$orders){
 		$sql = 'select pc.cost1,pc.coin_code,e.name as receiver_id,o.conditionerp,p.id,p.sku,p.isover,p.fid,p.order_id,p.product_name,p.quantity,p.price,p.cuser,p.cdate,p.muser,p.mdate,p.rdate,p.ruser,p.comment,p.extends,p.statu,sl.esseid  as esseid
                 from process p
@@ -88,6 +86,7 @@
             $sql .= ' where 1 and p.receiver_id>0 '.$sqlstr.$orders;
         }else{*/
             $sql = 'select temp.total as shipping_fee,e.name as rechouse,e2.name as prohouse,p.statu as statu,p.id,p.fid,p.quantity,p.cuser,p.muser,p.cdate,p.extends,p.sold_way,p.comment2,p.comment,p.sku,p.order_id,p.product_name,shipping_farerewrite,sum_product_size,sum_product_weight from process as p  left join esse as e on p.receiver_id=e.id left join esse as e2 on p.provider_id=e2.id left join (select shipping,track_no,sum(tariff_costs) as total from tariff_rewrite group by track_no)temp on temp.track_no=p.comment2 where 1 and p.receiver_id>0 '.$sqlstr.$orders;
+            
         //}    
  		return $this->D->query_array($sql);
  	}
@@ -168,7 +167,7 @@
 
  	/*根据采购订单号获得订单产品信息，供应商(联实体表)信息,审核人与制单人(联有户表)信息*/
  	public function print_getmsg($sqlstr){
- 		$sql = 'select um.chi_name as mname,uc.chi_name as cname,e.name,e.extends as e_extends,p.fee,p.sku,p.product_name,p.quantity,p.price,p.extends as p_extends,p.comment,p.cdate as cdate from process as p left join esse as e on p.provider_id=e.id left join user as um on um.eng_name=p.muser  left join user as uc on uc.eng_name=p.cuser where 1 '.$sqlstr;
+ 		$sql = 'select um.chi_name as mname,uc.chi_name as cname,e.name,e.extends as e_extends,p.fee,p.sku,p.product_name,p.quantity,p.price,p.extends as p_extends,p.comment,p.cdate as cdate from process as p left join esse as e on p.provider_id=e.id left join user as um on um.eng_name=p.muser  left join user as uc on uc.eng_name=p.cuser where 1 '.$sqlstr.' group by p.id';
  		return $this->D->query_array($sql,fetch_assoc);
 
  	}
@@ -585,6 +584,32 @@
 		$sql .= ') temp group by sku order by '.$order.'sku asc';
 		return $this->D->query_array($sql);
 	}
+    
+    /**
+	 * create on 2014-02-14
+	 * by jerry
+	 * @param $sqlstr 报表过滤条件 ,如果选择销售账号，销售账号必须分组，在统计单个账号产品收入时，必须得分组统计，留到后期改动
+	 * @param $order 排序条件
+	 * sku销售报表用
+	 * */
+	public  function select_sku_sold_list_slod_id($sqlstr, $order) {
+		$sql = 'select sku,sold_id,count(sku) as totalprocess,sum(quantity) as totalquantity,sum(price*rate/100) as totalprice,sum(price2*quantity) as cost,sum(quantity2) as returnsum,sum(price3*rate3/100) as returnprice from (';
+		$sql .= ' select p1.pid,sku,quantity,price,price2,coin_code,rate,sold_id,0 as quantity2,0 as price3,0 as coin_code3,0 as rate3 from process as p1 ';
+		$sql .= ' left join exchange_rate as er on p1.coin_code=er.code ';
+		$sql .= ' where active="1" and output="1" and protype= "售出" and p1.stage_rate=er.stage_rate '.$sqlstr;
+		$sql .= ' union all ';
+		$sql .= ' select p1.pid,p1.sku,0 as quantity,0 as price,0 as price2,0 as coin_code,0 as rate,0 as sold_id,p2.quantity as quantity2,0 as price3,0 as coin_code3,0 as rate3 from process as p1 ';
+		$sql .= ' left join process as p2 on p1.id=p2.detail_id  ';
+		$sql .= ' where p1.active="1" and p1.output="1" and p1.protype= "售出" and p2.protype="退货" '.$sqlstr;
+		$sql .= ' union all ';
+		$sql .= ' select p1.pid,p1.sku,0 as quantity,0 as price,0 as price2,0 as coin_code,0 as rate,0 as sold_id,0 as quantity2,p2.price,p2.coin_code,rate as rate3 from process as p2 ';
+		$sql .= ' left join process as p1 on p1.id=p2.detail_id ';
+		$sql .= ' left join exchange_rate as er on p2.coin_code=er.code  ';
+		$sql .= ' where p1.active="1" and p1.output="1" and p1.protype= "售出" and p2.property="退款单" and er.stage_rate=p2.stage_rate '.$sqlstr;
+		$sql .= ') temp where sold_id <>0 group by sku,sold_id order by '.$order.'sku asc';
+		return $this->D->query_array($sql);
+	}
+
 
 	/**
 	 * create on 2013-12-31
@@ -608,7 +633,6 @@
 		$sql .= ' left join exchange_rate as er on p2.coin_code=er.code JOIN prc_esse ON prc_esse.pid=p1.pid JOIN esse ON esse.id=eid ';
 		$sql .= ' where p1.active="1" and p1.output="1" and p1.protype= "售出" and p2.property="退款单" and er.stage_rate=p2.stage_rate '.$sqlstr;
 		$sql .= ') temp group by sku order by '.$order.'sku asc';
-        //die($sql);
 		return $this->D->query_array($sql);
 	}
 
@@ -624,7 +648,9 @@
 	*/
 	public function get_outbondlist($sqlstr){
 
-	 	$sql = 'select s.wayname as sold_way,p.rdate,p.cdate,p.order_id,p.sold_id,p.fid,p.deal_id,p.sku,p.product_name,p.quantity,p.price,p.extends,p.cuser,p.comment2,p.buyer_id,p.pid,p.provider_id from process p left join sold_way s on p.sold_way=s.id where active="1" and output="1"  and (protype= "售出" or protype="重发") '.$sqlstr.' order by order_id desc';
+	 	$sql = 'SELECT s.wayname AS sold_way,p.rdate,p.cdate,p.order_id,p.sold_id,p.fid,p.deal_id,p.sku,p.product_name,p.quantity,p.price,p.extends,
+                p.cuser,p.comment2,p.buyer_id,p.pid,p.provider_id FROM `process` p LEFT JOIN sold_way s ON p.sold_way=s.id
+                WHERE active="1" AND output="1" AND (protype= "售出" OR protype="重发") '.$sqlstr.' order by order_id desc';
 		return $this->D->query_array($sql);
 
 	 }
@@ -636,7 +662,7 @@
 	*/
 	public function get_soldlist($sqlstr){
 
-	 	$sql = 'select s.wayname as sold_way,p.rdate,p.cdate,p.order_id,p.sold_id,p.fid,p.deal_id,p.sku,p.product_name,p.quantity,p.price,p.extends,p.cuser,p.comment2,p.buyer_id,p.pid,p.provider_id from process p left join sold_way s on p.sold_way=s.id where active="1" and output="1"  and protype= "售出" '.$sqlstr.' order by order_id desc';
+	 	$sql = 'select s.wayname as sold_way,p.rdate,p.cdate,p.order_id,p.sold_id,p.fid,p.deal_id,p.sku,p.product_name,p.quantity,p.price,p.extends,p.cuser,p.comment2,p.buyer_id,p.pid,p.provider_id from `process` p left join sold_way s on p.sold_way=s.id where active="1" and output="1"  and protype= "售出" '.$sqlstr.' order by order_id desc';
 		return $this->D->query_array($sql);
 
 	 }
@@ -845,14 +871,22 @@
         return $this->D->get_all_sql($sql);
      }
      
-     /**
-      * @title 当不选择仓库时候，列出sku所有仓库对应的运费
-      * @author Jerry
-      * @create on 2014-1-20
-      */ 
-      public function get_sku_all_house_shipping($sqlstr){
+    /*
+     * @title 当不选择仓库时候，列出sku所有仓库对应的运费
+     * @author Jerry
+     * @create on 2014-1-20
+     */ 
+    public function get_sku_all_house_shipping($sqlstr){
         $sql = 'SELECT sku,`name`,shipping FROM product LEFT JOIN sku_shipping ON product.pid=sku_shipping.pid  LEFT JOIN esse ON esse.id=sku_shipping.eid WHERE 1 AND NAME<>"" AND shipping<>"" and  '.$sqlstr.' ORDER BY name';
         return $this->D->get_all_sql($sql);
-      }  
- }
+    }
+    
+    //获取市场指导价的总计
+    public function get_total_market_price($sqlstr)
+    {
+        $sql ='SELECT sum(market_price*quantity) as total_market_price FROM process '.$sqlstr;
+        
+        return $this->D->get_one_sql($sql);
+    }
+}
 ?>

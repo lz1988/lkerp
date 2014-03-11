@@ -785,6 +785,7 @@ elseif($detail == 'print_stockorder'){
 		/*将额外信息存进输出数组$datalist*/
 		$val['product_name'] = strlen($val['product_name'])>=80?'<span style="font-size:8px;">'.$val['product_name'].'</span>':$val['product_name'];
  		$extends = json_decode($val['p_extends'],true);
+        
  		$val['e_iprice']  = number_format($extends['e_iprice']+$ordernums['fee']/$ordernums['quantity'],6);//含税单价=含税单价+即付运费，为方便录金碟
 
  		$val['e_cost']	  = number_format($extends['e_cost'],2);

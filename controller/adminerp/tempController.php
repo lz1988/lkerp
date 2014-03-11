@@ -1,16 +1,6 @@
-
 <?php
-/*
- * Created on 2012-1-18
- *
- * 临时控制器
- *
- */
-
-
 /*替换产品名称，重量与成本*/
  if($detail == 'upcost'){
-
 	//取上传的文件的数组
 	$upload_dir		= "./data/uploadexl/temp/";//上传文件保存路径的目录
 	$fieldarray		= array('A','B','C','D','E','F','G','H','I');//有效的excel列表值
@@ -22,61 +12,69 @@
 	$product_cost	= $this->S->dao('product_cost');
 	$product		= $this->S->dao('product');
 	//$exchanges		= $this->C->service('exchange_rate');
-    
     $product = $this->S->dao('product');
-   
 
 	$all_arr	=  $this->C->Service('upload_excel')->get_upload_excel_datas($upload_dir, $fieldarray, $head);
 	unset($all_arr[0]);
 	$filepath	= $this->getLibrary('basefuns')->getsession('filepath');
 
 	unlink($filepath);
-    //echo '<pre>';print_r($all_arr);die();
+    
 	if($all_arr){
-
-		foreach($all_arr as $val){
+		foreach($all_arr as $val)
+        {
+            //更新市场指导价方法
             $sid = $product->D->get_one_by_field(array('sku'=>$val['sku']),'pid');
-            if(!empty($sid))
-                //$sid = $product->D->get_one_by_field(array('sku'=>$val['sku']),'pid');
-                $product_dimensions = $val['product_dimensions_a']."x".$val['product_dimensions_b']."x".$val['product_dimensions_c'];
-                $box_product_dimensions = $val['box_product_dimensions_a']."x".$val['box_product_dimensions_b']."x".$val['box_product_dimensions_c'];
-                if ($val['unit_box']){
-                    $ret = $product->D->update(array('sku'=>$val['sku']),array(
-                        'product_dimensions'=>$product_dimensions,
-                        'shipping_weight'=>$val['shipping_weight'],
-                        'box_product_dimensions'=>$box_product_dimensions,
-                        'unit_box'=>$val['unit_box']
-                        ));
-                }else{
-                    $ret = $product->D->update(array('sku'=>$val['sku']),array(
-                        'product_dimensions'=>$product_dimensions,
-                        'shipping_weight'=>$val['shipping_weight'],
-                        ));
-                }
+            if(!empty($sid)){
+                $ret = $product_cost->D->update(array('pid'=>$sid['pid']),array(
+                    'cost3'=>$val['cost3'],
+                ));
                 if($ret) {$success++;}else{$error++;}
             }
-//            if (!empty($val['zone'])){
-//                $data   = array('area_id'=>$val['area_id'],'code'=>'d'.$val['zone'],'shipping_id'=>$val['shipping_id']);
-//                $result = $shipping_encode->D->insert($data);
-//            }
-//            if ($result){$success++;}else{$error++;}
-                
-			/*$pid = $product->D->get_one(array('sku'=>$val['sku']),'pid');
-			if($pid){
-				$backcost= $product_cost->D->get_one(array('pid'=>$pid),'cost3,coin_code');
-				//if($backcost['cost3']){
-					$backcost['cost3'] = $exchanges->change_rate('CNY',$backcost['coin_code'],$val['cost']);
-			//	}
+            
+            //$sid = $product->D->get_one_by_field(array('sku'=>$val['sku']),'pid');
+            //$product_dimensions = $val['product_dimensions_a']."x".$val['product_dimensions_b']."x".$val['product_dimensions_c'];
+            //$box_product_dimensions = $val['box_product_dimensions_a']."x".$val['box_product_dimensions_b']."x".$val['box_product_dimensions_c'];
+            /*
+            if ($val['unit_box']){
+                $ret = $product->D->update(array('sku'=>$val['sku']),array(
+                    'product_dimensions'=>$product_dimensions,
+                    'shipping_weight'=>$val['shipping_weight'],
+                    'box_product_dimensions'=>$box_product_dimensions,
+                    'unit_box'=>$val['unit_box']
+                ));
+            }else{
+                $ret = $product->D->update(array('sku'=>$val['sku']),array(
+                    'product_dimensions'=>$product_dimensions,
+                    'shipping_weight'=>$val['shipping_weight'],
+                ));
+            }
+            if($ret) {$success++;}else{$error++;}
+            */    
+        }
+        /*
+        if (!empty($val['zone'])){
+            $data   = array('area_id'=>$val['area_id'],'code'=>'d'.$val['zone'],'shipping_id'=>$val['shipping_id']);
+            $result = $shipping_encode->D->insert($data);
+        }
+        if ($result){$success++;}else{$error++;}
+            
+		$pid = $product->D->get_one(array('sku'=>$val['sku']),'pid');
+		if($pid){
+			$backcost= $product_cost->D->get_one(array('pid'=>$pid),'cost3,coin_code');
+			if($backcost['cost3']){
+				$backcost['cost3'] = $exchanges->change_rate('CNY',$backcost['coin_code'],$val['cost']);
+		    }
 
-				$sid = $product_cost->D->update(array('pid'=>$pid),array('cost3'=>$backcost['cost3']));
-				if($sid) {$success++;}else{$error++;}
+			$sid = $product_cost->D->update(array('pid'=>$pid),array('cost3'=>$backcost['cost3']));
+			if($sid) {$success++;}else{$error++;}
 
-			}else{
-				$no_sku.= $val['sku'].'<br>';
-				$notfountd++;
-			}*/
-         
+		}else{
+			$no_sku.= $val['sku'].'<br>';
+			$notfountd++;
 		}
+        */
+    }
 
 	echo '成功更新 '.$success.'个，失败 '.$error.'个';
 
@@ -185,8 +183,8 @@
 
 
 /*近15次采购价与时间*/
- elseif($detail == 'getallcost'){
-
+elseif($detail == 'getallcost')
+{
 	$backdata = $this->S->dao('process')->D->get_list(' and property="采购单" and sku="91-8858-001" ','','','price,cdate,sku');
 	$xmlcont  = "<graph caption='".$backdata[0]['sku']."' subcaption='Monthly Sales Summary For the near 12 month' xAxisName='Year-Month' yAxisName='Sales' decimalPrecision='0' formatNumberScale='0' numberPrefix='$' showNames='1' showValues='1'  showAlternateHGridColor='1' AlternateHGridColor='ff5904' divLineColor='ff5904' divLineAlpha='20' alternateHGridAlpha='5' >";
 
@@ -199,40 +197,69 @@
 	$this->V->set_tpl('adminweb/report_chart');
 	display();
 
- }
+}
  
 
- elseif ($detail == 'getshipping_cost'){
+elseif ($detail == 'getshipping_cost'){
     $shipping_fare  = $this->C->service('shipping_fare');
     $data = $shipping_fare->getshipping_cost('8','18600000000','34500000000','20','CNY','1');
     print_r($data);
- }
+}
  
-  /*条形码生成*/
- elseif ($detail == 'barcode'){
+/*条形码生成*/
+elseif ($detail == 'barcode'){
     $codebar = 'BCGcode39';
     $temp = $this->C->service('temp');
     return $temp->barcode($codebar,$sku);
-    
- }
+}
  
- elseif ($detail == 'call'){
+elseif ($detail == 'call'){
     $global = $this->C->service('global');
     $global->buytimenotice();
-
- }
- elseif ($detail == 'come'){
+}
+ 
+elseif ($detail == 'come'){
     $global = $this->C->service('global');
     $global->comeproductnotice();
-
- }elseif ($detail == 'temp'){
+}
+ 
+elseif ($detail == 'temp'){
     //return 'saaaaaaaaa';
     echo 'ddd';
- }
- elseif ($detail == 'ajax_message') {
-	$this->V->set_tpl('adminweb/ajax_message');
-	display();
- }
+}
  
+elseif ($detail == 'ajax_message') {
+	$this->V->set_tpl('adminweb/ajax_message');
+    display();
+}
 
+//由于国内事业部更改的客服的操作方式，原来是又人工填写订单中的单价
+//考虑到人手操作的复杂度，所以改为在表格的商品列中只有一个订单的总金额，收入根据市场指导价均摊
+//这个是用来更新导入错误的数据
+elseif ($detail == 'update_price') {
+    $process = $this->S->dao('process');
+	$datalist = $process->D->get_all_sql("SELECT order_id,COUNT(id) AS qty,COUNT(price),MAX(price),MIN(price) FROM process WHERE cdate>='2014-02-24' AND market_price IS NOT NULL GROUP BY order_id HAVING qty>1 AND MAX(price)>0 AND MAX(price) = MIN(price) ORDER BY qty DESC");
+    
+    foreach($datalist as $val)
+    {
+        $order_id = $val['order_id'];
+        
+        $price_data = $process->D->get_one_by_field(array('order_id'=>$order_id),'price');
+        $price = $price_data["price"];//订单总金额
+        
+        $total_market_price_data = $process->get_total_market_price(" where order_id='".$order_id."'");
+        $total_market_price = $total_market_price_data["total_market_price"];//市场指导价总金额
+        
+        //计算每份市场价涉及的平均值
+        $every = $price/$total_market_price;
+        
+        $order_data = $process->D->get_allstr(" and order_id='".$order_id."'",'','','id,quantity,market_price');
+        foreach($order_data as $vals)
+        {
+            $item_price = $vals['market_price']*$vals['quantity']*$every;
+            //将这个金额更新到Price字段中
+            $process->D->update_sql(" where id='".$vals['id']."'",array('price'=>$item_price));
+        }
+    }
+}
 ?>

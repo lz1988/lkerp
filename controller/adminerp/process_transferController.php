@@ -213,7 +213,9 @@
 
 /*已接收的导出*/
 elseif($detail == 'output'){
-
+    
+    if($sqlstr) $sqlstr = str_replace('cuser','p.cuser',$sqlstr);
+    if($sqlstr) $sqlstr = str_replace('sku','p.sku',$sqlstr);
 	$sqlstr		.= ' and property="转仓单" and isover="N"';
 	$datalist 	 = $this->S->dao('process')->showtransfer($sqlstr,' order by p.order_id desc ');
 	$whouse		 = $this->C->service('warehouse');

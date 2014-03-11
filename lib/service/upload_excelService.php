@@ -74,14 +74,16 @@
 	public function checkmod_head($all_arr,$data_error,$type){
 
 		$headArr		= is_array($type)?$type:$this->exl_table_head[$type];//判断是否已自定义表头数组
-
+        //echo '<pre>';print_r($headArr);
 		$tablelist 		= '<tr>';
 		$table_thkeys 	= array_keys($all_arr['0']);
-
+        //echo '<pre>';print_r($table_thkeys);
 		for ($i=0; $i<count($table_thkeys); $i++){
 
 			/*导入的表格不在规定的表头里，则报红*/
 			$error_style			= '';
+            //echo $all_arr['0'][$table_thkeys[$i]]." ";
+            //echo $headArr[$i]."<br/>";
 			if($all_arr['0'][$table_thkeys[$i]]  != $headArr[$i]){
 				$error_style 		= ' style="color:red"; title="无效的表头，应为'.$headArr[$i].'" ';
 				$data_error++;

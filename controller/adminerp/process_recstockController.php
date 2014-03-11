@@ -573,17 +573,22 @@ elseif($detail == 'delstock'){
 
  /*批量导入其它出入库*/
  elseif($detail == 'import_extra'){
-
+    
+    $process		= $this->S->dao('process');
 	if($type == 'output'){
 		$title		= '其它出库(extraout)';
+    	/*生成出仓单号,取得其它出仓最大单号，并取出数字，t+7位数字，不够补0*/
+		$max = $this->C->service('warehouse')->get_maxorder_manay('出仓单','t',$process);
 		$property	= '出仓单';
         $_eid       = 'provider_id';
 	}else{
 		$title		= '其它入库(extra)';
+        /*生成入仓单号,取得进仓最大单号，并取出数字，e+7位数字，不够补0*/
+	    $max = $this->C->service('warehouse')->get_maxorder_manay('进仓单','e',$process);
 		$property	= '进仓单';
         $_eid       = 'receiver_id';
 	}
-
+ 
 	if($_FILES["upload_file"]["name"] || $filepath){
 
 		$upload_exl_service = $this->C->Service('upload_excel');
@@ -604,7 +609,6 @@ elseif($detail == 'delstock'){
 		if($filepath){
 			$all_arr		= $upload_exl_service->get_excel_datas_withkey($filepath, $fieldarray, 1);
 			$errorcount		= 0;
-			$process		= $this->S->dao('process');
 			unset($all_arr['0']);//删除表头
 			unlink($filepath);//删除文件
 
@@ -613,17 +617,17 @@ elseif($detail == 'delstock'){
 			$finansvice 	= $this->C->service('finance');
 
 			$process->D->query('begin');
-
-			/*生成出仓单号,取得其它出仓最大单号，并取出数字，t+7位数字，不够补0*/
-			$max = $this->C->service('warehouse')->get_maxorder_manay('出仓单','t',$process);
-			
           
 			foreach($all_arr as $k=> $val){
                 $backpdut	= $objproduct->D->get_one(array('sku'=>$val['sku']),'pid,product_name');
                 if ($backpdut['pid'])	{
                     $backassem = $process->output_child_sku(' and s.pid='.$backpdut['pid']);
                 }
-                $order_id = 't'.sprintf("%07d",substr($max,1)+$k);
+                if($type == 'output')
+                    $order_id = 't'.sprintf("%07d",substr($max,1)+$k);
+                else
+                    $order_id = 'e'.sprintf("%07d",substr($max,1)+$k);
+                    
                 $ktime		= date('Y-m-d H:i:s',time());
                 /*组装的SKU*/
                 if(count($backassem)>1){

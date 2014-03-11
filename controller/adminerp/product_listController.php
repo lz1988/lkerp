@@ -24,8 +24,8 @@ $exportarr = array(
  }
 
 if ($eid){
-    $_eid = $this->S->dao('esse')->D->get_one_by_field(array('id'=>$eid),'name');
-    $exportarr['shipping'] = '运费('.$_eid['name'].')(CNY)';
+    //$_eid = $this->S->dao('esse')->D->get_one_by_field(array('id'=>$eid),'name');
+    //$exportarr['shipping'] = '运费('.$_eid['name'].')(CNY)';
 }else{
     $exportarr['shipping'] = '运费';
 }
@@ -209,7 +209,7 @@ if ($detail == 'list') {
         $datalist[$i]['product_name']  = '<font title="红色为组合SKU" color="'.$zuhecolor.'">'.$datalist[$i]['product_name'].'</font>';
         
         //运费显示
-        $datalist[$i]['shipping']    = nl2br(str_replace(",","\n",$datalist[$i]['shipping']));
+        $datalist[$i]['shippings']    = nl2br(str_replace(",","\n",$datalist[$i]['shippings']));
         
 
         /*产品状态（正常：normal，清库：emptying，停止销售-质量问题：quality，停止销售-低利润：profit，停止销售-侵权：tort）*/
@@ -241,7 +241,7 @@ if ($detail == 'list') {
     if($back_set_coin == 'USD'){//米悠不显示
 	    $displayarr['fba_bp'] 	            = array('showname'=>'FBA BP('.$back_set_coin.')','width'=>'120');
     }
-    $displayarr['shipping']             = array('showname'=>'运费(CNY)','width'=>'120');
+    $displayarr['shippings']             = array('showname'=>'运费(CNY)','width'=>'120');
     $displayarr['label'] 	            = array('showname'=>'产品标签','width'=>'200');
     $displayarr['stock'] 	            = array('showname'=>'可发库存','width'=>'180');
     $displayarr['conditionerp'] 	    = array('showname'=>'状态','width'=>'100');

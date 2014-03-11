@@ -43,12 +43,16 @@ if ($detail == 'list'){
                     $newweight = $_volume/5000;
                 }
             }
+            echo $newweight."<br/>";
             $_weight = $newweight>$weight?$newweight:$weight;
+            
             if ($val['unit']=='g'){
                 $_gweight =$_weight*1000;
             }else{
                 $_gweight = $_weight;
             }
+            
+            //echo $quantity;
             //重量*数量 再去计算min_weight 和 max_weight之间的运费
             if(!empty($quantity)){$_gweight = $_gweight*$quantity;}    
             
