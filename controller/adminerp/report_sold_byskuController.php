@@ -1,17 +1,16 @@
 <?php
-
-    
+//列表
 if ($detail == 'list') {
 	$stypemu = array(
 		'sku-s-l'     =>'&nbsp; &nbsp; SKU：',
 		'sold_id-a-e' =>'&nbsp; &nbsp; 销售代码：',
 		'cdate-t-t'   =>'&nbsp; &nbsp;日期：',
-        'soldflag-b-' =>'&nbsp;&nbsp;渠道分组明细：'
+        'soldflag-a-e' =>'&nbsp;&nbsp;分组：'
 	);
-
-     /*取得销售账号下拉*/
-	$soldaccount	= $this->S->dao('sold_account')->D->get_allstr('','','','id, account_code');
-	$sold_idarr		= array(''=>'=请选择=');
+    
+    /*取得销售账号下拉*/
+	$soldaccount = $this->S->dao('sold_account')->D->get_allstr('','','account_code','id, account_code');
+	$sold_idarr	= array(''=>'=请选择=');
 	for($i = 0; $i < count($soldaccount); $i++){
 	   $sold_idarr[$soldaccount[$i]['id']] = $soldaccount[$i]['account_code'];
 	}
@@ -19,13 +18,10 @@ if ($detail == 'list') {
     $tablewidth = '1370';
     $getaccount_code = $this->C->service('order')->get_account_code();//获取销售代码数组
     
-    if (!empty($soldflag))
-        $soldflagstr = '<input type="checkbox" name="soldflag" style="width:16px;height:16px;" value="1" checked >';
-    else
-        $soldflagstr = '<input type="checkbox" name="soldflag" style="width:16px;height:16px;" value="1" >';
+    $soldflagarr 	= array(''=>'=请选择=','1'=>'按渠道','2'=>'按时间');
         
-	if ($sqlstr || $order) {
-	   
+	if ($sqlstr || $order)
+    {
         $sqlstr = str_replace("sold_id","p1.sold_id",$sqlstr);
 		$bannerstrarr[] = array('url'=>'index.php?action=report_sold_bysku&detail=output&soldflag='.$soldflag.'','value'=>'导出数据');
 		$asc_img 	= 'both_asc';
@@ -41,8 +37,7 @@ if ($detail == 'list') {
 		$totalprice_asc 		= 'totalprice_asc';
 		$totalprocess_desc 		= 'totalprocess_desc';
 		$totalprocess_asc 		= 'totalprocess_asc';
-
-
+        
 		$orders = str_replace("_"," ", $order);
 		if ($order) {
 			$orders .= ',';
@@ -69,16 +64,19 @@ if ($detail == 'list') {
 		}
 
 		$InitPHP_conf['pageval'] = 20;
-		//$sqlstr   = str_replace("sold_way","p1.sold_way",$sqlstr);
+		$sqlstr   = str_replace('and soldflag="1"','',$sqlstr);
+		$sqlstr   = str_replace('and soldflag="2"','',$sqlstr);
 		$sqlstr   = str_replace('sku like "%','p1.sku like "',$sqlstr);
 		$sqlstr   = str_replace("cdate","p1.cdate",$sqlstr);
 		$process  = $this->S->dao('process');
-        if ($soldflag)
+        if ($soldflag == 1) {
             $datalist = $process->select_sku_sold_list_slod_id($sqlstr, $orders);
-        else
+        } elseif ($soldflag == 2) {
+            $datalist = $process->select_sku_sold_list_by_date($sqlstr, $orders);
+        } else {
             $datalist = $process->select_sku_sold_list($sqlstr, $orders);
-        
-        
+        }
+
 		$length = count($datalist);
 		$datalist[$length]['sku'] = '合计：';
 		$datalist[$length]['totalquantity'] = 0;
@@ -88,13 +86,12 @@ if ($detail == 'list') {
 		$datalist[$length]['returnprice'] = 0;
 		$datalist[$length]['cost'] = 0;
 
-		for ($i = 0; $i < $length; $i++) {
-           
+		for ($i = 0; $i < $length; $i++)
+        { 
 			if ($datalist[$i]['totalquantity']!=0) {
 				$datalist[$i]['RMA'] = $datalist[$i]['returnsum']/$datalist[$i]['totalquantity'] *100;
 				$datalist[$i]['RMA'] = number_format($datalist[$i]['RMA'], 2);
 			}
-            
 			$datalist[$i]['RMA'] .= '%';
             
 			if ($datalist[$i]['totalprice']!=0) {
@@ -144,21 +141,23 @@ if ($detail == 'list') {
 		$displayarr['totalquantity'] = array('showname'=>'卖出产品总数','width'=>'150', 'orderlink_desc' => $t_orderslink.$totalquantity_desc, 'orderlink_asc'=>$t_orderslink.$totalquantity_asc, 'order_type'=>$totalquantity_img);
 		$displayarr['totalprice'] = array('showname'=>'订单销售总额','width'=>'150',  'orderlink_desc' => $t_orderslink.$totalprice_desc, 'orderlink_asc'=>$t_orderslink.$totalprice_asc, 'order_type'=>$totalprice_img);
 		$displayarr['totalprocess'] = array('showname'=>'订单总数','width'=>'100', 'orderlink_desc' => $t_orderslink.$totalprocess_desc, 'orderlink_asc'=>$t_orderslink.$totalprocess_asc, 'order_type'=>$totalprocess_img);
-        if (empty($soldflag)){
-    		$displayarr['returnsum'] = array('showname'=>'退货总数','width'=>'100');
+		$displayarr['cost'] = array('showname'=>'产品成本(RMB)','width'=>'150');
+        if ($soldflag == 1){
+            $displayarr['account_code'] = array('showname'=>'销售代码','width'=>'200');
+        } elseif ($soldflag == 2){
+            $displayarr['cdate'] = array('showname'=>'时间','width'=>'200');
+        } else {
+            $displayarr['returnsum'] = array('showname'=>'退货总数','width'=>'100');
     		$displayarr['RMA'] = array('showname'=>'退货率','width'=>'80');
     		$displayarr['returnprice'] = array('showname'=>'退款金额','width'=>'150');
     		$displayarr['RPA'] = array('showname'=>'退款率','width'=>'80');
-        }else{
-            $displayarr['account_code'] = array('showname'=>'销售代码','width'=>'200');
         }
-		$displayarr['cost'] = array('showname'=>'产品成本(RMB)','width'=>'150');
-		
 	}
     
     $this->V->mark(array('title'=>'SKU销售报表'));
 	$temp = 'pub_list';
 }
+//导出
 elseif ($detail == 'output') {
 	$orders = str_replace("_"," ", $order);
 	if ($order) {
@@ -178,17 +177,20 @@ elseif ($detail == 'output') {
 	else {
 		$filename .= '_'.date('Y-m-d', time());
 	}
-
+    
+    $sqlstr   = str_replace('and soldflag="1"','',$sqlstr);
+    $sqlstr   = str_replace('and soldflag="2"','',$sqlstr);
 	$sqlstr = str_replace("sold_id","p1.sold_id",$sqlstr);
 	$sqlstr = str_replace('sku like "%','p1.sku like "',$sqlstr);
 	$sqlstr = str_replace("cdate","p1.cdate",$sqlstr);
 	$process = $this->S->dao('process');
-	//$datalist = $process->select_sku_sold_list($sqlstr, $orders);
-   if ($soldflag)
+    if ($soldflag == 1) {
         $datalist = $process->select_sku_sold_list_slod_id($sqlstr, $orders);
-   else
+    }elseif ($soldflag == 2) {
+        $datalist = $process->select_sku_sold_list_by_date($sqlstr, $orders);
+    }  else {
         $datalist = $process->select_sku_sold_list($sqlstr, $orders);
-        
+    }
     $getaccount_code = $this->C->service('order')->get_account_code();//获取销售代码数组
 
 	$length = count($datalist);
@@ -213,11 +215,13 @@ elseif ($detail == 'output') {
 			$datalist[$i]['RMA'] = number_format($datalist[$i]['RMA'], 2);
 		}
 		$datalist[$i]['RMA'] .= '%';
+        
 		if ($datalist[$i]['totalprice']!=0) {
 			$datalist[$i]['RPA'] = $datalist[$i]['returnprice']/$datalist[$i]['totalprice'] *100;
 			$datalist[$i]['RPA'] = number_format($datalist[$i]['RPA'], 2);
 		}
 		$datalist[$i]['RPA'] .= '%';
+        
 		$datalist[$i]['totalprice'] = round($datalist[$i]['totalprice'], 2);
 		$datalist[$i]['returnprice'] = number_format($datalist[$i]['returnprice'], 2);
 		$datalist[$i]['coin_code'] = "USD";
@@ -231,19 +235,27 @@ elseif ($detail == 'output') {
 		$datalist[$length]['RMA'] = number_format($datalist[$length]['RMA'], 2);
 	}
 	$datalist[$length]['RMA'] .= '%';
+    
 	if ($datalist[$length]['totalprice']!=0) {
 		$datalist[$length]['RPA'] = $datalist[$length]['returnprice']/$datalist[$length]['totalprice'] *100;
 		$datalist[$length]['RPA'] = number_format($datalist[$length]['RPA'], 2);
 	}
 	$datalist[$length]['RPA'] .= '%';
+    
 	$datalist[$length]['totalprice'] = number_format($datalist[$length]['totalprice'], 2);
 	$datalist[$length]['returnprice'] = number_format($datalist[$length]['returnprice'], 2);
-    if (!empty($soldflag))
-        $head_array = array('sku' => 'SKU', 'coin_code' => '币别', 'totalquantity' => '卖出产品总数', 'totalprice' => '订单销售总额', 'cost' => '产品成本(RMB)','account_code'=>'销售渠道');
-    else
-        $head_array = array('sku' => 'SKU', 'coin_code' => '币别', 'totalquantity' => '卖出产品总数', 'totalprice' => '订单销售总额', 'totalprocess' => '出仓订单总数', 'returnsum' => '退货总数', 'RMA' => '退货率', 'returnprice' => '退款金额', 'RPA' => '退款率', 'cost' => '产品成本(RMB)');
+    
+    if ($soldflag == 1) {
+        $head_array = array('sku' => 'SKU', 'coin_code' => '币别', 'totalquantity' => '卖出产品总数', 'totalprice' => '订单销售总额', 'totalprocess' => '订单总数', 'cost' => '产品成本(RMB)','account_code'=>'销售渠道');
+    } elseif ($soldflag == 2) {
+        $head_array = array('sku' => 'SKU', 'coin_code' => '币别', 'totalquantity' => '卖出产品总数', 'totalprice' => '订单销售总额', 'totalprocess' => '订单总数', 'cost' => '产品成本(RMB)','cdate'=>'时间');
+    } else {
+        $head_array = array('sku' => 'SKU', 'coin_code' => '币别', 'totalquantity' => '卖出产品总数', 'totalprice' => '订单销售总额', 'totalprocess' => '订单总数', 'cost' => '产品成本(RMB)', 'returnsum' => '退货总数', 'RMA' => '退货率', 'returnprice' => '退款金额', 'RPA' => '退款率');
+    }
+        
 	$this->C->service('upload_excel')->download_excel($filename,$head_array,$datalist);
 }
+
 elseif ($detail == 'oldlist') {
 	if ($sqlstr || $order) {
 

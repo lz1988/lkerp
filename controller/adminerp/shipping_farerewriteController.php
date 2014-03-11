@@ -4,8 +4,8 @@
  *
  * @title 运费反写 create by hanson 2013-03-21
  */
-
-
+ 
+ set_time_limit(0);
  /*主页选择*/
  if($detail == 'main'){
 
@@ -232,16 +232,16 @@
                     if ($skuweight)
                     {
                         $firewritecost  = $process->showtransfer_sumfarewritecost_s($datalist[$i]['comment2']);
-                       
+                        
                         $sumweight      = $firewritecost['sumweight'];
                         $shipping_fee   = $datalist[$i]['shipping_fee'];
                         $skucost        = $skuweight/$sumweight;
-                        //echo '<pre>';echo $skuweight;
-                        //echo '<pre>';echo $sumweight.'sss';
-                        //echo '<prE>';echo $shipping_fee;
-                        //echo $skucost;
-                        $farewrite = number_format($skucost*$shipping_fee,2);
-                        
+                        //echo '<pre>';echo $skuweight.'*';
+                        //echo '<pre>';echo $sumweight.'**';
+                        //echo '<prE>';echo $shipping_fee.'***';
+                        //echo '<prE>';$skucost;
+                        //die();
+                        $farewrite = $skucost*$shipping_fee;
                         //更新运费
                         $process->D->update_by_field(array('id'=>$datalist[$i]['id']),array('shipping_farerewrite'=>$farewrite));
                         
